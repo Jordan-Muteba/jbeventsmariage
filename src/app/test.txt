@@ -1,0 +1,56 @@
+src/app/
+│
+├── core/
+│   ├── guards/
+│   │   ├── auth.guard.ts
+│   │   ├── admin.guard.ts
+│   │   └── marie.guard.ts
+│   │
+│   └── services/
+│       └── auth.service.ts
+│
+├── layout/
+│   ├── admin-layout/
+│   │   ├── admin-layout.component.ts
+│   │   ├── admin-layout.component.html
+│   │   └── admin-layout.component.css
+│   │
+│   └── marie-layout/
+│       ├── marie-layout.component.ts
+│       ├── marie-layout.component.html
+│       └── marie-layout.component.css
+│
+├── pages/
+│   │
+│   ├── auth/
+│   │   └── login/
+│   │       ├── login.component.ts
+│   │       └── login.component.html
+│   │
+│   ├── admin/
+│   │   ├── dashboard/
+│   │   ├── utilisateurs/
+│   │   ├── mariages/
+│   │   └── statistiques/
+│   │
+│   ├── marie/
+│   │   ├── dashboard/
+│   │   ├── mariage/
+│   │   ├── invites/
+│   │   ├── boissons/
+│   │   ├── tables/
+│   │   ├── controle/
+│   │   └── statistiques/
+│   │
+│   └── invite/
+│       ├── accueil/
+│       └── confirmation/
+│
+├── services/
+│   ├── mariage.service.ts
+│   ├── invitation.service.ts
+│   ├── boisson.service.ts
+│   └── table.service.ts
+│
+├── app.routes.ts
+└── app.config.ts

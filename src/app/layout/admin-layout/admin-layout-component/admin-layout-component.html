@@ -1,0 +1,359 @@
+<div class="min-h-screen
+         bg-slate-100
+         text-slate-900
+         transition-colors
+         duration-300
+         dark:bg-slate-950
+         dark:text-white">
+
+    <!-- SIDEBAR -->
+    <aside class="fixed
+           inset-y-0
+           left-0
+           z-40
+           flex
+           w-72
+           flex-col
+           border-r
+           border-slate-200
+           bg-white
+           transition-transform
+           duration-300
+           dark:border-slate-800
+           dark:bg-slate-900" [class.-translate-x-full]="!sidebarOuverte">
+
+        <!-- LOGO -->
+        <div class="flex
+             h-20
+             items-center
+             gap-3
+             border-b
+             border-slate-200
+             px-6
+             dark:border-slate-800">
+
+            <div class="flex
+               h-11
+               w-11
+               items-center
+               justify-center
+               rounded-2xl
+               bg-violet-600
+               text-xl
+               shadow-lg">
+                💍
+            </div>
+
+            <div>
+                <h1 class="font-bold text-slate-900 dark:text-white">
+                    Wedding Manager
+                </h1>
+
+                <p class="text-xs text-slate-500 dark:text-slate-400">
+                    Administration
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- MENU -->
+        <nav class="flex-1 space-y-2 overflow-y-auto p-4">
+
+            <p class="mb-3 px-3 text-xs font-semibold uppercase
+               tracking-wider text-slate-400">
+                Administration
+            </p>
+
+
+            <!-- DASHBOARD -->
+            <a routerLink="/admin/dashboard"
+                routerLinkActive="bg-violet-100 text-violet-700 dark:bg-violet-500/10 dark:text-violet-400" class="flex
+               items-center
+               gap-3
+               rounded-xl
+               px-4
+               py-3
+               text-sm
+               font-medium
+               text-slate-600
+               transition
+               hover:bg-slate-100
+               dark:text-slate-300
+               dark:hover:bg-slate-800">
+                <span class="text-lg">🏠</span>
+
+                <span>Dashboard</span>
+            </a>
+
+
+            <!-- UTILISATEURS -->
+            <a routerLink="/admin/utilisateurs"
+                routerLinkActive="bg-violet-100 text-violet-700 dark:bg-violet-500/10 dark:text-violet-400" class="flex
+               items-center
+               gap-3
+               rounded-xl
+               px-4
+               py-3
+               text-sm
+               font-medium
+               text-slate-600
+               transition
+               hover:bg-slate-100
+               dark:text-slate-300
+               dark:hover:bg-slate-800">
+                <span class="text-lg">👥</span>
+
+                <span>Utilisateurs</span>
+            </a>
+
+
+            <!-- MARIAGES -->
+            <a routerLink="/admin/mariages"
+                routerLinkActive="bg-violet-100 text-violet-700 dark:bg-violet-500/10 dark:text-violet-400" class="flex
+               items-center
+               gap-3
+               rounded-xl
+               px-4
+               py-3
+               text-sm
+               font-medium
+               text-slate-600
+               transition
+               hover:bg-slate-100
+               dark:text-slate-300
+               dark:hover:bg-slate-800">
+                <span class="text-lg">💍</span>
+
+                <span>Mariages</span>
+            </a>
+
+
+            <!-- STATISTIQUES -->
+            <a routerLink="/admin/statistiques"
+                routerLinkActive="bg-violet-100 text-violet-700 dark:bg-violet-500/10 dark:text-violet-400" class="flex
+               items-center
+               gap-3
+               rounded-xl
+               px-4
+               py-3
+               text-sm
+               font-medium
+               text-slate-600
+               transition
+               hover:bg-slate-100
+               dark:text-slate-300
+               dark:hover:bg-slate-800">
+                <span class="text-lg">📊</span>
+
+                <span>Statistiques</span>
+            </a>
+
+        </nav>
+
+
+        <!-- BAS SIDEBAR -->
+        <div class="border-t
+             border-slate-200
+             p-4
+             dark:border-slate-800">
+
+            <button type="button" class="flex
+               w-full
+               items-center
+               gap-3
+               rounded-xl
+               px-4
+               py-3
+               text-sm
+               font-medium
+               text-slate-600
+               transition
+               hover:bg-slate-100
+               dark:text-slate-300
+               dark:hover:bg-slate-800">
+                <span class="text-lg">⚙️</span>
+
+                <span>Paramètres</span>
+            </button>
+
+
+            <button type="button" (click)="deconnexion()" class="mt-1
+               flex
+               w-full
+               items-center
+               gap-3
+               rounded-xl
+               px-4
+               py-3
+               text-sm
+               font-medium
+               text-red-600
+               transition
+               hover:bg-red-50
+               dark:text-red-400
+               dark:hover:bg-red-500/10">
+                <span class="text-lg">🚪</span>
+
+                <span>Déconnexion</span>
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- CONTENU PRINCIPAL -->
+    <div class="transition-all duration-300" [class.ml-72]="sidebarOuverte">
+
+        <!-- HEADER -->
+        <header class="sticky
+             top-0
+             z-30
+             flex
+             h-20
+             items-center
+             justify-between
+             border-b
+             border-slate-200
+             bg-white/80
+             px-6
+             backdrop-blur-md
+             dark:border-slate-800
+             dark:bg-slate-900/80">
+
+            <!-- GAUCHE -->
+            <div class="flex items-center gap-4">
+
+                <button type="button" (click)="toggleSidebar()" class="flex
+                 h-10
+                 w-10
+                 items-center
+                 justify-center
+                 rounded-xl
+                 text-xl
+                 text-slate-600
+                 transition
+                 hover:bg-slate-100
+                 dark:text-slate-300
+                 dark:hover:bg-slate-800">
+                    ☰
+                </button>
+
+                <div>
+
+                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                        Espace administrateur
+                    </p>
+
+                    <h2 class="font-semibold">
+                        Administration
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <!-- DROITE -->
+            <div class="flex items-center gap-3">
+
+                <!-- THEME -->
+                <button type="button" (click)="changerTheme()"
+                    [attr.aria-label]="estSombre() ? 'Mode clair' : 'Mode sombre'" class="flex
+                 h-11
+                 w-11
+                 items-center
+                 justify-center
+                 rounded-full
+                 border
+                 border-slate-200
+                 bg-white
+                 text-lg
+                 shadow-sm
+                 transition
+                 hover:scale-105
+                 dark:border-slate-700
+                 dark:bg-slate-800">
+                    @if (estSombre()) {
+                    ☀️
+                    } @else {
+                    🌙
+                    }
+                </button>
+
+
+                <!-- NOTIFICATION -->
+                <button type="button" class="hidden
+                 h-11
+                 w-11
+                 items-center
+                 justify-center
+                 rounded-full
+                 border
+                 border-slate-200
+                 bg-white
+                 text-lg
+                 shadow-sm
+                 sm:flex
+                 dark:border-slate-700
+                 dark:bg-slate-800">
+                    🔔
+                </button>
+
+
+                <!-- PROFIL -->
+                <div class="flex
+                 items-center
+                 gap-3
+                 rounded-full
+                 border
+                 border-slate-200
+                 bg-white
+                 py-1
+                 pl-1
+                 pr-4
+                 dark:border-slate-700
+                 dark:bg-slate-800">
+
+                    <div class="flex
+                   h-9
+                   w-9
+                   items-center
+                   justify-center
+                   rounded-full
+                   bg-violet-600
+                   font-semibold
+                   text-white">
+                        A
+                    </div>
+
+                    <div class="hidden sm:block">
+
+                        <p class="text-sm font-semibold">
+                            Administrateur
+                        </p>
+
+                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                            ADMIN
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE -->
+        <main class="min-h-[calc(100vh-5rem)] p-4 sm:p-6 lg:p-8">
+
+            <router-outlet></router-outlet>
+
+        </main>
+
+    </div>
+
+</div>

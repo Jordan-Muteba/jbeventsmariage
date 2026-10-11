@@ -1,0 +1,274 @@
+<div class="relative min-h-screen overflow-hidden
+         bg-slate-950
+         flex items-center justify-center
+         px-4 py-10">
+
+    <!-- IMAGE DE FOND -->
+    <div class="absolute inset-0
+         bg-[url('/images/mariage2.jpeg')]
+         bg-cover
+         bg-center
+         scale-105
+         blur-[3px]
+         "></div>
+    <!-- <div class="absolute inset-0
+         bg-[url('/images/mariage.7.jpeg')]
+         bg-cover
+         bg-center
+         scale-105
+         blur-[3px]
+         "></div> -->
+
+
+    <!-- VOILE SOMBRE -->
+    <div classe="absolute inset-0
+         bg-black/45
+         dark:bg-black/60"></div>
+
+
+    <!-- CONTENU -->
+    <div class="relative z-10
+         w-full
+         max-w-md">
+        <!--          
+         <button type="button" (click)="changerTheme()" class="mt-8
+                      inline-flex
+                      items-center
+                      gap-2
+                      rounded-xl
+                      bg-violet-600
+                      px-6 py-3
+                      font-semibold
+                      text-white
+                      shadow-lg
+                      transition
+                      hover:bg-violet-700
+                      dark:bg-violet-500
+                      dark:hover:bg-violet-600">
+     
+             @if (estSombre()) {
+             ☀️ 
+             } @else {
+             🌙 
+             }
+     
+         </button> -->
+
+        <!-- BOUTON THÈME FLOTTANT -->
+        <button type="button" (click)="changerTheme()"
+            [attr.aria-label]="estSombre() ? 'Activer le mode clair' : 'Activer le mode sombre'" class="fixed
+         bottom-6
+         right-6
+         z-50
+
+         flex
+         h-14
+         w-14
+         items-center
+         justify-center
+
+         rounded-full
+
+         border
+         border-white/40
+
+         bg-white/75
+         text-xl
+
+         shadow-xl
+         backdrop-blur-md
+
+         transition-all
+         duration-300
+
+         hover:scale-110
+
+         dark:border-white/20
+         dark:bg-slate-900/75
+
+         animate-[spin_6s_linear_infinite]">
+            @if (estSombre()) {
+            ☀️
+            } @else {
+            🌙
+            }
+        </button>
+
+
+        <div class="rounded-3xl
+             border
+             border-white/60
+             bg-white/50
+             dark:bg-slate-900/90
+             
+             backdrop-blur-md
+             shadow-2xl
+             p-8
+             border-white/60">
+
+            <!-- LOGO -->
+            <div class="text-center mb-8">
+
+                <div class="mx-auto
+                 w-16 h-16
+                 rounded-2xl
+                 bg-violet-100
+                 dark:bg-violet-950
+                 flex items-center justify-center
+                 text-3xl
+                 shadow-sm">
+                    💍
+                </div>
+
+                <h1 class="mt-5
+                 text-2xl
+                 font-bold
+                 text-slate-900
+                 text-violet-700
+                 dark:text-white">
+                    Bienvenue
+                </h1>
+
+                <p class="mt-2
+                 text-sm
+                 text-slate-600
+                 text-dark-600
+                 dark:text-slate-400">
+                    Connectez-vous à votre espace
+                </p>
+
+            </div>
+
+
+            <!-- MESSAGE ERREUR -->
+
+            <div *ngIf="messageErreur" class="mb-5
+               rounded-xl
+               border border-red-200
+               bg-red-50
+               px-4 py-3
+               text-sm
+               text-red-700
+               dark:border-red-900
+               dark:bg-red-950
+               dark:text-red-300">
+                {{ messageErreur }}
+            </div>
+
+
+            <!-- FORMULAIRE -->
+
+            <form [formGroup]="loginForm" (ngSubmit)="connexion()" class="space-y-5">
+
+                <!-- EMAIL -->
+
+                <div>
+
+                    <label class="block mb-2
+                   text-sm font-medium
+                   text-slate-700
+                   text-violet
+                   dark:text-slate-300">
+                        Adresse email
+                    </label>
+
+                    <input type="email" formControlName="email" placeholder="exemple@email.com" class="w-full
+                   rounded-xl
+                   border border-slate-300
+                   bg-white/80
+                   px-4 py-3
+                   text-slate-900
+                   outline-none
+                   transition
+
+                   focus:border-violet-500
+                   focus:ring-4
+                   focus:ring-violet-500/10
+
+                   dark:border-slate-700
+                   dark:bg-slate-800/80
+                   dark:text-white
+                   dark:placeholder-slate-500" />
+
+                    <p *ngIf="
+              loginForm.get('email')?.touched &&
+              loginForm.get('email')?.invalid
+            " class="mt-2
+                   text-xs
+                   text-red-500">
+                        Veuillez saisir une adresse email valide.
+                    </p>
+
+                </div>
+
+
+                <!-- MOT DE PASSE -->
+
+                <div>
+
+                    <label class="block mb-2
+                   text-sm font-medium
+                   text-slate-700
+                   text-violet
+                   dark:text-slate-300">
+                        Mot de passe
+                    </label>
+
+                    <input type="password" formControlName="password" placeholder="••••••••" class="w-full
+                   rounded-xl
+                   border border-slate-300
+                   bg-white/80
+                   px-4 py-3
+                   text-slate-900
+                   outline-none
+                   transition
+
+                   focus:border-violet-500
+                   focus:ring-4
+                   focus:ring-violet-500/10
+
+                   dark:border-slate-700
+                   dark:bg-slate-800/80
+                   dark:text-white
+                   dark:placeholder-slate-500" />
+
+                </div>
+
+
+                <!-- BOUTON -->
+
+                <button type="submit" class="w-full
+                 rounded-xl
+                 bg-violet-600
+                 px-4 py-3
+                 font-semibold
+                 text-white  
+
+                 transition
+                 hover:bg-violet-700
+                 active:scale-[0.98]
+
+                 focus:outline-none
+                 focus:ring-4
+                 focus:ring-violet-500/20">
+                    Se connecter
+                </button>
+
+            </form>
+
+
+            <!-- FOOTER -->
+
+            <div class="mt-8
+               text-center
+               text-xs
+               text-slate-500
+               dark:text-slate-400">
+                Gestion de mariage
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

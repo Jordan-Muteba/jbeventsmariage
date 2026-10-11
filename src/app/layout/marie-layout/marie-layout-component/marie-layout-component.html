@@ -1,0 +1,283 @@
+<div class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white">
+
+  <!-- SIDEBAR -->
+  <aside
+    class="fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-slate-200
+           bg-white shadow-xl transition-transform duration-300
+           dark:border-white/10 dark:bg-slate-900"
+    [class.-translate-x-full]="!sidebarOuverte"
+  >
+
+    <!-- LOGO -->
+    <div class="flex h-20 items-center gap-3 border-b border-slate-200 px-6 dark:border-white/10">
+
+      <div
+        class="flex h-11 w-11 items-center justify-center rounded-2xl
+               bg-violet-600 text-2xl text-white shadow-lg shadow-violet-500/30"
+      >
+        💍
+      </div>
+
+      <div>
+        <h1 class="font-bold text-slate-900 dark:text-white">
+          Wedding Manager
+        </h1>
+
+        <p class="text-xs text-slate-500 dark:text-slate-400">
+          Mon mariage
+        </p>
+      </div>
+
+    </div>
+
+
+    <!-- MENU -->
+    <nav class="flex-1 space-y-2 overflow-y-auto px-4 py-6">
+
+      <p
+        class="mb-4 px-3 text-xs font-semibold uppercase tracking-wider
+               text-slate-400"
+      >
+        💍 Mon mariage
+      </p>
+
+
+      <!-- Dashboard -->
+      <a
+        routerLink="/marie/dashboard"
+        routerLinkActive="bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium
+               text-slate-600 transition hover:bg-slate-100
+               dark:text-slate-300 dark:hover:bg-white/5"
+      >
+        <span class="text-lg">🏠</span>
+        <span>Dashboard</span>
+      </a>
+
+
+      <!-- Mariage -->
+      <a
+        routerLink="/marie/mariage"
+        routerLinkActive="bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300"
+        class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium
+               text-slate-600 transition hover:bg-slate-100
+               dark:text-slate-300 dark:hover:bg-white/5"
+      >
+        <span class="text-lg">💒</span>
+        <span>Mon mariage</span>
+      </a>
+
+
+      <!-- Invités -->
+      <a
+        routerLink="/marie/invites"
+        routerLinkActive="bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300"
+        class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium
+               text-slate-600 transition hover:bg-slate-100
+               dark:text-slate-300 dark:hover:bg-white/5"
+      >
+        <span class="text-lg">👥</span>
+        <span>Invités</span>
+      </a>
+
+
+      <!-- Boissons -->
+      <a
+        routerLink="/marie/boissons"
+        routerLinkActive="bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300"
+        class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium
+               text-slate-600 transition hover:bg-slate-100
+               dark:text-slate-300 dark:hover:bg-white/5"
+      >
+        <span class="text-lg">🥂</span>
+        <span>Boissons</span>
+      </a>
+
+
+      <!-- Tables -->
+      <a
+        routerLink="/marie/tables"
+        routerLinkActive="bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300"
+        class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium
+               text-slate-600 transition hover:bg-slate-100
+               dark:text-slate-300 dark:hover:bg-white/5"
+      >
+        <span class="text-lg">🪑</span>
+        <span>Tables</span>
+      </a>
+
+
+      <!-- Contrôle -->
+      <a
+        routerLink="/marie/controle"
+        routerLinkActive="bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300"
+        class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium
+               text-slate-600 transition hover:bg-slate-100
+               dark:text-slate-300 dark:hover:bg-white/5"
+      >
+        <span class="text-lg">🎫</span>
+        <span>Contrôle</span>
+      </a>
+
+
+      <!-- Statistiques -->
+      <a
+        routerLink="/marie/statistiques"
+        routerLinkActive="bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300"
+        class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium
+               text-slate-600 transition hover:bg-slate-100
+               dark:text-slate-300 dark:hover:bg-white/5"
+      >
+        <span class="text-lg">📊</span>
+        <span>Statistiques</span>
+      </a>
+
+    </nav>
+
+
+    <!-- BAS SIDEBAR -->
+    <div class="space-y-2 border-t border-slate-200 p-4 dark:border-white/10">
+
+      <button
+        type="button"
+        class="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm
+               font-medium text-slate-600 transition hover:bg-slate-100
+               dark:text-slate-300 dark:hover:bg-white/5"
+      >
+        <span class="text-lg">⚙️</span>
+        <span>Paramètres</span>
+      </button>
+
+      <button
+        type="button"
+        (click)="deconnexion()"
+        class="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm
+               font-medium text-red-600 transition hover:bg-red-50
+               dark:text-red-400 dark:hover:bg-red-500/10"
+      >
+        <span class="text-lg">🚪</span>
+        <span>Déconnexion</span>
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- CONTENU PRINCIPAL -->
+  <div
+    class="min-h-screen transition-all duration-300"
+    [class.ml-72]="sidebarOuverte"
+  >
+
+    <!-- HEADER -->
+    <header
+      class="sticky top-0 z-40 flex h-20 items-center justify-between
+             border-b border-slate-200 bg-white/80 px-4 backdrop-blur-xl
+             sm:px-6 dark:border-white/10 dark:bg-slate-900/80"
+    >
+
+      <div class="flex items-center gap-4">
+
+        <!-- MENU MOBILE -->
+        <button
+          type="button"
+          (click)="toggleSidebar()"
+          class="flex h-10 w-10 items-center justify-center rounded-xl
+                 border border-slate-200 bg-white text-lg
+                 hover:bg-slate-100
+                 dark:border-white/10 dark:bg-slate-800 dark:hover:bg-white/10"
+        >
+          ☰
+        </button>
+
+        <div>
+          <p class="text-xs text-slate-500 dark:text-slate-400">
+            Espace marié
+          </p>
+
+          <h2 class="font-semibold text-slate-900 dark:text-white">
+            Mon mariage
+          </h2>
+        </div>
+
+      </div>
+
+
+      <!-- ACTIONS HEADER -->
+      <div class="flex items-center gap-2">
+
+        <!-- THEME -->
+        <button
+          type="button"
+          (click)="changerTheme()"
+          [attr.aria-label]="
+            estSombre()
+              ? 'Activer le mode clair'
+              : 'Activer le mode sombre'
+          "
+          class="flex h-10 w-10 items-center justify-center rounded-xl
+                 border border-slate-200 bg-white text-lg shadow-sm
+                 transition hover:scale-105
+                 dark:border-white/10 dark:bg-slate-800"
+        >
+          @if (estSombre()) {
+            ☀️
+          } @else {
+            🌙
+          }
+        </button>
+
+
+        <!-- NOTIFICATION -->
+        <button
+          type="button"
+          class="hidden h-10 w-10 items-center justify-center rounded-xl
+                 border border-slate-200 bg-white text-lg
+                 hover:bg-slate-100 sm:flex
+                 dark:border-white/10 dark:bg-slate-800 dark:hover:bg-white/10"
+        >
+          🔔
+        </button>
+
+
+        <!-- PROFIL -->
+        <div
+          class="ml-2 hidden items-center gap-3 border-l border-slate-200 pl-4 sm:flex
+                 dark:border-white/10"
+        >
+
+          <div
+            class="flex h-10 w-10 items-center justify-center rounded-full
+                   bg-violet-100 text-lg
+                   dark:bg-violet-500/15"
+          >
+            💍
+          </div>
+
+          <div class="leading-tight">
+            <p class="text-sm font-semibold text-slate-900 dark:text-white">
+              Marié
+            </p>
+
+            <p class="text-xs text-slate-500 dark:text-slate-400">
+              MARIE
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- PAGE -->
+    <main class="p-4 sm:p-6">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+
+</div>
