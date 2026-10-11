@@ -65,7 +65,7 @@ export const routes: Routes = [
   },
 
   {
-     path: 'invitation/:codeInvitation', component: Accueil,
+     path: 'invitation/', component: Accueil,
   },
 
     // {
