@@ -172,7 +172,7 @@ export class Accueil implements OnInit, OnDestroy {
         params.get('codeInvitation') || '';
 
       console.log(
-        'Code invitation :',
+        'Code invitation/:',
         this.codeInvitation
       );
     });
