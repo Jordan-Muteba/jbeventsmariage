@@ -1,5 +1,10 @@
-import { Component, inject } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Component, HostListener, inject } from '@angular/core';
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet
+} from '@angular/router';
 import { ThemeService } from '../../../core/services/theme-service';
 
 @Component({
@@ -32,11 +37,28 @@ export class AdminLayoutComponent {
     this.sidebarOuverte = !this.sidebarOuverte;
   }
 
-  deconnexion(): void {
+  fermerSidebar(): void {
+    this.sidebarOuverte = false;
+  }
 
+  fermerSidebarMobile(): void {
+    if (window.innerWidth < 1024) {
+      this.sidebarOuverte = false;
+    }
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    if (window.innerWidth >= 1024) {
+      this.sidebarOuverte = true;
+    } else {
+      this.sidebarOuverte = false;
+    }
+  }
+
+  deconnexion(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
-
     this.router.navigate(['/login']);
   }
 }

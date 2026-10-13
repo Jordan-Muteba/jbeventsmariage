@@ -1,8 +1,9 @@
 
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ThemeService } from '../../../core/services/theme-service';
 
 // Interface d'une boisson
 interface BoissonAffichee {
@@ -49,23 +50,23 @@ export class Accueil implements OnInit, OnDestroy {
       description:
         'Deux histoires, deux chemins et désormais une seule histoire à écrire ensemble.',
 
-      hero: '/images/accueil/hero12.jpg',
-      save: '/images/accueil/saveSansFond2.png',
-      ligne: '/images/accueil/ligne.png',
-      qr: '/images/accueil/qr.jpg',
-      histoire: '/images/histoire.jpg',
-      ceremonie: '/images/ceremonie.jpg',
-      reception: '/images/reception.jpg',
-      livre: '/images/livre1.jpg',
-      logo: '/images/accueil/logo3.png',
-      // logo: '/images/accueil/logo2.jpeg',
+      hero: 'images/accueil/hero12.jpg',
+      save: 'images/accueil/saveSansFond2.png',
+      ligne: 'images/accueil/ligne.png',
+      qr: 'images/accueil/qr.jpg',
+      histoire: 'images/histoire.jpg',
+      ceremonie: 'images/ceremonie.jpg',
+      reception: 'images/reception.jpg',
+      livre: 'images/livre1.jpg',
+      logo: 'images/accueil/logo3.png',
+      // logo: 'images/accueil/logo2.jpeg',
 
 
       galerie: [
-        '/images/galerie-1.jpg',
-        '/images/galerie-2.jpg',
-        '/images/galerie-3.jpg',
-        '/images/galerie-4.jpg'
+        'images/galerie-1.jpg',
+        'images/galerie-2.jpg',
+        'images/galerie-3.jpg',
+        'images/galerie-4.jpg'
       ],
     }
   };
@@ -87,61 +88,61 @@ export class Accueil implements OnInit, OnDestroy {
       id: 1,
       libelle: 'Castel',
       description: 'Boisson fraîche',
-      logo: '/images/boissons/castel.png'
+      logo: 'images/boissons/castel.png'
     },
     {
       id: 2,
       libelle: 'Beaufort',
       description: 'Pour votre célébration',
-      logo: '/images/boissons/beaufort-1.jpg'
+      logo: 'images/boissons/beaufort-1.jpg'
     },
     {
       id: 3,
       libelle: 'Nkoyi & Likofi',
       description: 'À partager',
-      logo: '/images/boissons/nkoyi.png',
+      logo: 'images/boissons/nkoyi.png',
     },
     {
       id: 4,
       libelle: 'Tembo',
       description: 'Une autre saveur',
-      logo: '/images/boissons/TEMBO.png '
+      logo: 'images/boissons/TEMBO.png '
     },
     {
       id: 5,
       libelle: 'Turbo King ',
       description: 'Une autre saveur',
-      logo: '/images/boissons/Turbo_King.jpg '
+      logo: 'images/boissons/Turbo_King.jpg '
     },
     {
       id: 6,
       libelle: 'Heineken ',
       description: 'Une autre saveur',
-      logo: '/images/boissons/heineken.png '
+      logo: 'images/boissons/heineken.png '
     },
     {
       id: 7,
       libelle: 'Du Vin',
       description: 'Une autre saveur',
-      logo: '/images/boissons/vin.jpg'
+      logo: 'images/boissons/vin.jpg'
     },
     {
       id: 8,
       libelle: 'Coca ',
       description: 'Une autre saveur',
-      logo: '/images/boissons/coca.jpg'
+      logo: 'images/boissons/coca.jpg'
     },
     {
       id: 9,
       libelle: 'Fanta ',
       description: 'Une autre saveur',
-      logo: '/images/boissons/fanta.jpg '
+      logo: 'images/boissons/fanta.jpg '
     },
     {
       id: 10,
       libelle: 'Maltina',
       description: 'Une autre saveur',
-      logo: '/images/boissons/maltina.jpg '
+      logo: 'images/boissons/maltina.jpg '
     },
   ];
 
@@ -161,9 +162,39 @@ export class Accueil implements OnInit, OnDestroy {
 
   messageLivreOr = '';
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  private themeInitial!: boolean;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private themeService: ThemeService
   ) { }
 
   ngOnInit(): void {
@@ -171,11 +202,17 @@ export class Accueil implements OnInit, OnDestroy {
       this.codeInvitation =
         params.get('codeInvitation') || '';
 
-      console.log(
-        'Code invitation :',
-        this.codeInvitation
-      );
+      console.log( 'Code invitation :',  this.codeInvitation );
     });
+
+     // Mémoriser le thème avant le forçage
+    this.themeInitial = this.themeService.estSombre();
+
+    // Forcer temporairement le thème noir
+    if (!this.themeInitial) {
+      this.themeService.changerTheme();
+    }
+
 
     this.demarrerCompteARebours();
   }
@@ -184,6 +221,20 @@ export class Accueil implements OnInit, OnDestroy {
     if (this.interval) {
       clearInterval(this.interval);
     }
+
+        // Restaurer le thème initial à la sortie de la page
+    const themeActuel = this.themeService.estSombre();
+
+    if (themeActuel !== this.themeInitial) {
+      this.themeService.changerTheme();
+    }
+
+  }
+
+  pageLogin() {
+    this.router.navigate([
+      '/login'
+    ]);
   }
 
   // =========================

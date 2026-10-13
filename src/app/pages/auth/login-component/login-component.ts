@@ -57,32 +57,45 @@ export class LoginComponent {
     const email = this.loginForm.value.email!;
     const password = this.loginForm.value.password!;
 
+    console.log('votre email est :', email, "et votre mot de passe est: ", password)
+    if ( email=== "jo1@gmail.com" && password ==="1111" ) {
+      this.router.navigate([ '/admin/dashboard'])
 
-    this.authService.login(email, password).subscribe({
-        next: (reponse) => {
-          this.authService.sauvegarderConnexion(reponse);
+    } if ( email=== "jordan@gmail.com" && password ==="1111" ) {
+      this.router.navigate([ '/marie/dashboard'])
 
-          if (reponse.role === 'ADMIN') {
-            this.router.navigate([
-              '/admin/dashboard'
-            ]);
-          }
+    } else {this.messageErreur =
+             'Email ou mot de passe incorrect.';
+        
 
-          else if (reponse.role === 'MARIE') {
-            this.router.navigate([
-              '/marie/dashboard'
-            ]);
-          }
-        },
+    // this.authService.login(email, password).subscribe({
+     
+      
+    //     next: (reponse) => {
+    //       this.authService.sauvegarderConnexion(reponse);
 
-        error: (error) => {
-          console.error('Erreur connexion :', error);
+    //       if (reponse.role === 'ADMIN') {
+    //         this.router.navigate([
+    //           '/admin/dashboard'
+    //         ]);
+    //       }
 
-          this.messageErreur =
-            error?.error?.message
-            || 'Email ou mot de passe incorrect.';
-        }
+    //       else if (reponse.role === 'MARIE') {
+    //         this.router.navigate([
+    //           '/marie/dashboard'
+    //         ]);
+    //       }
+    //     },
 
-      });
+    //     error: (error) => {
+    //       console.error('Erreur connexion :', error);
+
+    //       this.messageErreur =
+    //         error?.error?.message
+    //         || 'Email ou mot de passe incorrect.';
+    //     }
+
+    //   });
   }
+}
 }

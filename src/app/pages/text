@@ -1,0 +1,1710 @@
+<div class="min-h-screen overflow-hidden bg-[#f5f1eb]
+         text-slate-900 dark:bg-[#0b0b0c] dark:text-white">
+
+
+  <!-- ===================================================== -->
+  <!-- HERO -->
+  <!-- ===================================================== -->
+
+  <section class="relative flex min-h-screen items-center
+  justify-center overflow-hidden">
+
+    <button (click)="pageLogin()"
+      class=" absolute top-2 right-1 z-10  cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+      👤
+    </button>
+
+    <!-- IMAGE -->
+    <img [src]="invitation.mariage.hero" alt="Photo des mariés" class="absolute inset-0 h-full w-full
+  object-cover">
+
+    <!-- OVERLAY -->
+    <!-- le to-black/70 à l'inital permet de noircir le bottom -->
+    <div class="absolute inset-0
+             bg-gradient-to-b
+             from-black/0 via-black/40 to-black/20"></div>
+    <img (click)="pageLogin()" [src]="invitation.mariage.save" alt="Photo des mariés" class="absolute inset-0 h-1/4 w-1/2 
+             object-cover left-28% top-[-3%]">
+
+    <!-- HERO CONTENT -->
+    <div class="relative z-10 px-6 text-center text-white ">
+
+      <h1 class="mt-27 font-serif text-6xl font-light
+               tracking-wide sm:text-7xl md:text-8xl italic">
+
+        {{ invitation.mariage.nomMarie }}
+
+        <span class="mx-2 italic text-white/70">
+          &
+        </span>
+
+        {{ invitation.mariage.nomMariee }}
+
+      </h1>
+      <br>
+      ❤️
+      <div class="mx-auto my-8 h-px w-24
+               bg-white/60"></div>
+
+
+      <p class="font-serif text-2xl italic
+               sm:text-3xl text-white/100 italic">
+        {{ invitation.mariage.dateMariage }}
+      </p>
+
+
+      <p class="mt-2 text-sm uppercase
+               tracking-[0.3em] text-white/120 bg-black/20 ">
+        {{ invitation.mariage.heureMariage }}
+      </p>
+
+
+      <!-- SCROLL -->
+      <button type="button" (click)="faireDefiler('invitation')" class="mt-16 flex flex-col items-center
+               gap-3 mx-auto text-xs uppercase
+               tracking-[0.25em] text-white/100">
+
+        Découvrir
+
+        <span class="animate-bounce text-xl">
+          ↓
+        </span>
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ===================================================== -->
+  <!-- INVITATION -->
+  <!-- ===================================================== -->
+
+  <section id="invitation" class="relative px-6 py-24 sm:py-32 pb-10">
+
+    <div class="absolute inset-0
+             bg-gradient-to-b
+             from-black/0 via-black/0 to-black/0">
+      <img [src]="invitation.mariage.ligne" alt="Photo des mariés" class="absolute inset-0 w-full 
+             object-cover ">
+    </div>
+
+    <div class="mx-auto max-w-3xl text-center mt-[1%]">
+
+      <p class="text-xs uppercase
+               tracking-[0.4em]
+               text-amber-700 dark:text-amber-400 ">
+        Une invitation personnelle
+      </p>
+
+      <h2 class="mt-4 font-serif text-4xl
+               font-light sm:text-5xl  mb-3">
+        Couple
+        <span class="italic">
+          {{ invitation.invite.nomComplet }}
+        </span>
+        <!-- 👋 -->
+      </h2>
+
+      <p class="mb-1 text-slate-600 dark:text-white/70 max-w-2xl sm:text-lg  text-[14px] ">
+        L’homme s’attachera à sa femme, et tous deux ne feront qu’une seule chair 💍
+      </p>
+      <p class="text-purple-400  text-[14px] text-xs  mb-2">Célébrons l’amour et cette belle union !</p>
+      <h6 class="italic dark:text-white/90 text-[13px] ">Grâce Mujinga et Jordan Muteba ont la joie de vous inviter à
+        leur mariage religieux, suivi d’une soirée festive.</h6>
+
+      <h5 class="text-xs text-amber-700 dark:text-amber-400 mt-4 ">
+        📅
+        Mercredi, le {{invitation.mariage.dateMariage}}
+      </h5>
+      <div class="">
+        <h3 class="mt-3 pb-3 border-b border-yellow-400 w-40 m-auto">Programme</h3>
+      </div>
+      <div class="pl-5  mt-4 text-left  border-l-[3px] border-amber-700 dark:border-amber-400 ">
+        <h4 class="mb-2 text-center text-white/90 text-[15px]"><b class="text-amber-700 dark:text-amber-400"
+            style=" font-size: 30px;">⛪︎ </b>Benediction nuptiale, <strong class="text-white/90 ">12H00</strong></h4>
+        <p class="italic text-white/85 text-[13px] "><strong>Eglise Cité Bethel. </strong> 1ere rue Limete industriel,
+          ref. L'église cathole catholique Saint Raph</p>
+      </div>
+      <div class="pl-5  mt-4 text-left  border-l-[3px] border-amber-700 dark:border-amber-400 ">
+        <h4 class="mb-2  text-center text-white/90 text-[15px]"><b class="text-amber-700 dark:text-amber-400"
+            style=" font-size: 30px; ">🥂 </b>Soirée dansante, <strong class="text-white/90 ">19H00</strong></h4>
+        <p class="italic text-white/85 text-[13px] ">Salle de fête <strong> Les Jumelles </strong>de (Righini), N° 34
+          Av. Beni, Q. Righini, C. Lemba, ref. Rond point Ngaba</p>
+      </div>
+
+      <p class="mt-3 mb-3 italic text-[12px] text-xs text-amber-700 dark:text-amber-400">Soyez la bienvenue 👋</p>
+
+    </div>
+    <div class=" text-center justify-center align-center ">
+
+      <img [src]="invitation.mariage.qr" alt="Photo des mariés" class="relative bottom-0 m-auto  mt-6inset-0 h-25 w-25 
+      object-cover ">
+    </div>
+
+    <div class="w-full  text-center ">
+      <button type="button" (click)="confirmerPresence()"
+        class=" rounded-full m-auto mt-6 pt-2 pb-2 text-purple-800 bg-amber-700 dark:bg-amber-400  w-full pointer">Télécharger
+        l'invitation ⏬</button>
+    </div>
+
+  </section>
+
+
+  <section id="boissons" class="relative isolate overflow-hidden px-5 py-16 sm:px-8 sm:py-20">
+
+    <!-- Image d'arrière-plan -->
+    <img [src]="invitation.mariage.reception" alt="" aria-hidden="true"
+      class="absolute inset-0 -z-20 h-full w-full object-cover">
+
+    <!-- Voile sombre pour garder le texte lisible -->
+    <div class="absolute inset-0 -z-10 bg-black/65">
+    </div>
+
+    <!-- CONTENU EXISTANT DE LA SECTION BOISSONS -->
+    <div class="relative mx-auto max-w-5xl text-white">
+
+      <!--  titre,  cartes de boissons  et  bouton d'enregistrement. -->
+
+      <div class="mx-auto max-w-5xl">
+
+        <div class="mb-8 text-center">
+          <p class="text-xs uppercase tracking-[0.3em]
+        text-amber-700 dark:text-amber-400">
+            Une attention pour vous
+          </p>
+
+          <h2 class="mt-3 font-serif text-3xl sm:text-4xl">
+            Choisissez vos boissons
+          </h2>
+
+          <p class="mt-3 text-sm text-slate-600 dark:text-white/60">
+            Sélectionnez jusqu'à deux bouteilles pour célébrer avec nous.
+          </p>
+
+          <p class="mt-3 text-sm font-medium text-amber-700 dark:text-amber-400">
+            {{ boissonsSelectionnees.length }} / 2 bouteille(s) sélectionnée(s)
+          </p>
+          <p class=" italic text-[12px] mb-0 mt-2">Defilez pour plus de goût </p>
+        </div>
+
+
+
+        <div
+          class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 h-80 overflow-auto border-l-[3px] border-white/50 ">
+
+          @for (boisson of boissons; track boisson.id) {
+          <button type="button" (click)="selectionnerBoisson(boisson.id)" [disabled]="!estSelectionnee(boisson.id)
+            && boissonsSelectionnees.length >= 2" [attr.aria-pressed]="estSelectionnee(boisson.id)" class="relative rounded-2xl border p-4 text-center transition
+            disabled:cursor-not-allowed disabled:opacity-40
+            hover:-translate-y-1 hover:shadow-lg" [ngClass]="estSelectionnee(boisson.id)
+            ? 'border-amber-600 bg-amber-50 ring-2 ring-amber-600/30 dark:bg-amber-950/30'
+            : 'border-stone-200 bg-white dark:border-white/10 dark:bg-white/5'">
+
+            @if (estSelectionnee(boisson.id)) {
+            <span class="absolute right-2 top-2 rounded-full
+              bg-amber-700 px-2 py-1 text-xs text-white">
+              ✓ Choisie
+            </span>
+            }
+
+            <div class="mx-auto mb-3 flex h-28 items-center justify-center">
+              <img [src]="boisson.logo" [alt]="'Logo de ' + boisson.libelle" class="max-h-28 max-w-full object-contain"
+                loading="lazy">
+            </div>
+
+            <h3 class="font-serif text-lg">
+              {{ boisson.libelle }}
+            </h3>
+
+            <p class="mt-1 text-xs text-slate-500 dark:text-white/50">
+              {{ boisson.description }}
+            </p>
+          </button>
+          }
+        </div>
+        <!-- <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-20
+           flex flex-col items-center pointer-events-none">
+
+            <span class="text-white text-xs font-semibold tracking-widest
+             uppercase bg-black/40 px-3 py-1 rounded-full
+             animate-pulse">
+              Défiler vers le bas
+            </span>
+
+            <svg class="w-10 h-10 text-white drop-shadow-lg
+             animate-fleche-clignotante" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" stroke-width="3">
+
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+
+          </div> -->
+
+        <p class="mt-5 text-center text-xs text-slate-500 dark:text-white/70">
+          Votre sélection sera associée à votre invitation personnelle.
+        </p>
+
+        <div class="mt-6 text-center">
+          <button type="button" (click)="enregistrerBoissons()" [disabled]="boissonsSelectionnees.length === 0" class="rounded-full bg-amber-700 px-7 py-3 text-sm
+          font-semibold text-white transition hover:bg-amber-800
+          disabled:cursor-not-allowed disabled:opacity-90
+          dark:bg-amber-500 dark:text-white" style="color: white;">
+            Enregistrer mon choix
+          </button>
+        </div>
+
+        @if (messageBoissons) {
+        <p role="status" class="mt-4 text-center text-sm">
+          {{ messageBoissons }}
+        </p>
+        }
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+  <hr>
+
+  <section id="livre-or" class="relative isolate overflow-hidden px-5 py-16 sm:px-8 sm:py-20">
+
+    <!-- Image d'arrière-plan -->
+    <img [src]="invitation.mariage.livre" alt="" aria-hidden="true"
+      class="absolute inset-0 -z-20 h-full w-full object-cover">
+
+    <div class="absolute inset-0 -z-10 " style="background-color: #212d204f;">
+    </div>
+
+    <!-- CONTENU EXISTANT DU LIVRE D'OR -->
+    <div class="relative mx-auto max-w-3xl text-white">
+
+      <!--  titre, ton formulaire et la liste des messages. -->
+
+      <div class="mx-auto max-w-3xl">
+
+        <div class="mb-8 text-center">
+          <p class="text-xs uppercase tracking-[0.3em]
+        text-amber-700 dark:text-amber-400">
+            Vos mots nous touchent
+          </p>
+
+          <h2 class="mt-3 font-serif text-3xl sm:text-4xl">
+            Livre d'or
+          </h2>
+
+          <p class="mt-3 text-sm text-slate-600 dark:text-white/80">
+            Laissez-nous un mot, une bénédiction ou un vœu de bonheur pour les mariés.
+          </p>
+        </div>
+
+        <form (submit)="publierMessage($event)" class="rounded-2xl border border-amber-900/10 bg-white p-5
+        shadow-sm sm:p-7 dark:border-white/10 dark:bg-black/35">
+
+          <label for="nomAuteur" class="mb-2 block text-sm font-medium">
+            Votre nom
+          </label>
+
+          <input id="nomAuteur" type="text" name="nomAuteur" [(ngModel)]="nouveauMessage.nom" required maxlength="100"
+            placeholder="Votre nom" class="mb-5 w-full rounded-xl border border-stone-200
+          bg-transparent px-4 py-3 outline-none
+          focus:border-amber-600 dark:border-white/15">
+
+          <label for="texteMessage" class="mb-2 block text-sm font-medium">
+            Votre message
+          </label>
+
+          <textarea id="texteMessage" name="texteMessage" [(ngModel)]="nouveauMessage.texte" required minlength="2"
+            maxlength="1000" rows="4" placeholder="Que souhaitez-vous aux mariés ?" class="w-full resize-y rounded-xl border border-stone-200
+          bg-transparent px-4 py-3 outline-none
+          focus:border-amber-600 dark:border-white/15"></textarea>
+
+          <button type="submit" [disabled]="!nouveauMessage.nom.trim()
+          || !nouveauMessage.texte.trim()" class="mt-5 w-full rounded-full bg-amber-700 px-6 py-3
+          text-sm font-semibold text-white transition
+          hover:bg-amber-800 disabled:opacity-90
+          dark:bg-amber-500 dark:text-white">
+            ❤️ Signer le livre d'or
+          </button>
+
+          @if (messageLivreOr) {
+          <p role="status" class="mt-4 text-center text-sm">
+            {{ messageLivreOr }}
+          </p>
+          }
+        </form>
+
+        <div class="mt-10">
+          <h3 class="mb-5 text-center font-serif text-2xl">
+            Les petits mots de nos invités
+          </h3>
+
+          @for (message of messagesLivreOr; track message.id) {
+          <article class="mb-4 rounded-2xl border
+          border-stone-200/80 bg-white/80 p-5
+          dark:border-white/10 dark:bg-white/5">
+
+            <div class="flex items-start gap-3">
+              <div class="flex h-10 w-10 shrink-0 items-center
+              justify-center rounded-full bg-amber-100
+              text-amber-800 dark:bg-amber-400/15
+              dark:text-amber-300">
+                ♡
+              </div>
+
+              <div class="min-w-0 flex-1">
+                <h4 class="font-semibold">
+                  {{ message.nom }}
+                </h4>
+
+                <p class="mt-2 whitespace-pre-wrap break-words
+                text-sm leading-6 text-slate-600
+                dark:text-white/70">
+                  {{ message.texte }}
+                </p>
+              </div>
+            </div>
+          </article>
+          } @empty {
+          <p class="py-6 text-center text-sm text-slate-500">
+            Soyez le premier à laisser un mot aux mariés.
+          </p>
+          }
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+
+  <!-- ===================================================== -->
+  <!-- LIEU + CARTE -->
+  <!-- ===================================================== -->
+
+  <section class="bg-slate-950
+           px-5 py-10
+           text-white
+           sm:py-32">
+
+    <div class="mx-auto max-w-6xl">
+
+      <div class="text-center">
+
+        <p class="text-xs uppercase
+                 tracking-[0.4em]
+                 text-amber-400">
+          Le lieu
+        </p>
+
+        <h2 class="mt-5 font-serif text-4xl
+                 font-light sm:text-5xl">
+          Rendez-vous à
+          <br>
+          {{ invitation.mariage.lieu }}
+        </h2>
+
+        <p class="mt-5 text-white/50">
+          {{ invitation.mariage.adresse }}
+        </p>
+
+      </div>
+
+
+      <!-- CARTE -->
+      <div class="relative mt-14
+               overflow-hidden
+               border border-white/10
+               bg-slate-900
+               shadow-2xl">
+
+        <!--
+          TEMPORAIRE :
+          Nous remplacerons cette zone par
+          une vraie carte Google Maps / Leaflet.
+        -->
+
+        <div class="flex h-[400px]
+                 items-center
+                 justify-center
+                 bg-[url('/assets/images/invitation/galerie-3.jpg')]
+                 bg-cover bg-center
+                 sm:h-[500px]">
+
+          <div class="flex flex-col
+                   items-center">
+
+            <div class="flex h-16 w-16
+                     items-center justify-center
+                     rounded-full
+                     bg-red-500
+                     text-2xl
+                     shadow-2xl">
+              📍
+            </div>
+
+            <div class="mt-4
+                     bg-white px-5 py-3
+                     text-center
+                     text-slate-900
+                     shadow-xl">
+
+              <p class="font-semibold">
+                {{ invitation.mariage.lieu }}
+              </p>
+
+              <p class="mt-1 text-xs
+                       text-slate-500">
+                {{ invitation.mariage.adresse }}
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+        <div class="flex flex-col gap-3
+                 border-t border-white/10
+                 p-5 sm:flex-row
+                 sm:justify-center">
+
+          <button type="button" (click)="ouvrirCarte()" class="rounded-full
+                   bg-white px-7 py-3
+                   text-sm font-semibold
+                   text-slate-900
+                   transition
+                   hover:bg-amber-100">
+            🧭 Itinéraire
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ===================================================== -->
+  <!-- CONFIRMATION -->
+  <!-- ===================================================== -->
+
+  <section class="relative overflow-hidden
+           px-5 py-28
+           sm:py-36">
+
+    <div class="absolute inset-0">
+
+      <img [src]="invitation.mariage.hero" alt="" class="h-full w-full
+               object-cover">
+
+      <div class="absolute inset-0
+               bg-black/65"></div>
+
+    </div>
+
+
+    <div class="relative z-10
+             mx-auto max-w-2xl
+             text-center text-white">
+
+      <p class="text-xs uppercase
+               tracking-[0.4em]
+               text-white/60">
+        Votre présence compte
+      </p>
+
+
+      <h2 class="mt-6 font-serif text-4xl
+               font-light sm:text-6xl">
+        Serez-vous des nôtres ?
+      </h2>
+
+
+      <p class=" italic mt-6 mb-4 
+               text-white/70">
+        Nous serions très heureux
+        de vous compter parmi nous.
+      </p>
+      <hr>
+      <p class="mt-6 text-[12px] text-amber-700 dark:text-amber-400">
+        En cas d'indisponibilité, cliquez sur le bouton ci-dessous afin d'annuler votre invitation
+      </p>
+
+
+      <button type="button" (click)="confirmerPresence()" class="mt-10 rounded-full
+               bg-white px-9 py-4
+               text-sm font-semibold
+               text-slate-900
+               shadow-2xl
+               transition duration-300
+               hover:-translate-y-1
+               hover:bg-amber-50">
+        Annuler mon invitation
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+
+  <footer class="relative overflow-hidden px-5  py-8 text-center 
+  sm:py-36 bg-white">
+
+
+    <img [src]="invitation.mariage.logo" alt="" class=" m-auto
+                " style="width: 800px; height: 180px; ">
+
+  </footer>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="min-h-screen overflow-x-hidden bg-[#f5f1eb] text-slate-900 dark:bg-[#0b0b0c] dark:text-white">
+
+  <!-- ================= HERO ================= -->
+  <section class="relative flex min-h-[85svh] items-center justify-center overflow-hidden sm:min-h-screen">
+
+    <!-- Bouton connexion -->
+    <button
+      type="button"
+      (click)="pageLogin()"
+      aria-label="Connexion"
+      class="absolute right-3 top-3 z-30 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-black/40 text-lg text-white backdrop-blur-sm transition hover:bg-black/70 sm:right-6 sm:top-6 sm:h-12 sm:w-12">
+      👤
+    </button>
+
+    <!-- Image principale -->
+    <img
+      [src]="invitation.mariage.hero"
+      alt="Photo des mariés"
+      class="absolute inset-0 h-full w-full object-cover object-center">
+
+    <!-- Voile sombre -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/70"></div>
+
+    <!-- Image superposée -->
+    <img
+      (click)="pageLogin()"
+      [src]="invitation.mariage.save"
+      alt="Image de l'invitation"
+      class="absolute left-1/2 top-3 z-[1] h-20 w-32 -translate-x-1/2 cursor-pointer rounded-lg object-cover shadow-lg sm:top-5 sm:h-28 sm:w-44 md:h-36 md:w-56">
+
+    <!-- Contenu -->
+    <div class="relative z-10 mx-auto w-full max-w-6xl px-4 pb-8 pt-28 text-center text-white sm:px-6 sm:pt-36 md:pt-40">
+
+      <h1 class="mt-4 break-words font-serif text-3xl font-light italic leading-tight tracking-wide sm:text-5xl md:text-7xl lg:text-8xl">
+        {{ invitation.mariage.nomMarie }}
+        <span class="mx-1 text-white/70 sm:mx-3">&amp;</span>
+        {{ invitation.mariage.nomMariee }}
+      </h1>
+
+      <div class="my-5 text-2xl sm:my-8 sm:text-3xl">❤️</div>
+
+      <div class="mx-auto my-5 h-px w-16 bg-white/60 sm:my-8 sm:w-24"></div>
+
+      <p class="font-serif text-xl italic sm:text-2xl md:text-3xl">
+        {{ invitation.mariage.dateMariage }}
+      </p>
+
+      <p class="mx-auto mt-3 inline-block max-w-full rounded-lg bg-black/30 px-4 py-2 text-xs uppercase tracking-[0.2em] sm:text-sm sm:tracking-[0.3em]">
+        {{ invitation.mariage.heureMariage }}
+      </p>
+
+      <button
+        type="button"
+        (click)="faireDefiler('invitation')"
+        class="mx-auto mt-10 flex cursor-pointer flex-col items-center gap-3 rounded-lg px-4 py-2 text-xs uppercase tracking-[0.2em] transition hover:bg-white/10 sm:mt-16 sm:tracking-[0.25em]">
+        Découvrir
+        <span class="animate-bounce text-2xl">↓</span>
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- ================= INVITATION ================= -->
+  <section id="invitation" class="relative isolate overflow-hidden px-4 py-12 sm:px-6 sm:py-20 md:py-28">
+
+    <img
+      [src]="invitation.mariage.ligne"
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 -z-20 h-full w-full object-cover">
+
+    <div class="absolute inset-0 -z-10 bg-white/70 dark:bg-black/60"></div>
+
+    <div class="mx-auto mt-2 max-w-3xl text-center sm:mt-4">
+
+      <p class="text-[10px] uppercase tracking-[0.25em] text-amber-700 dark:text-amber-400 sm:text-xs sm:tracking-[0.4em]">
+        Une invitation personnelle
+      </p>
+
+      <h2 class="mt-4 break-words font-serif text-3xl font-light sm:text-4xl md:text-5xl">
+        Couple
+        <span class="italic">{{ invitation.invite.nomComplet }}</span>
+      </h2>
+
+      <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-600 dark:text-white/80 sm:text-base">
+        L’homme s’attachera à sa femme, et tous deux ne feront qu’une seule chair 💍
+      </p>
+
+      <p class="mt-3 text-sm text-purple-600 dark:text-purple-400">
+        Célébrons l’amour et cette belle union !
+      </p>
+
+      <h6 class="mx-auto mt-4 max-w-2xl text-sm italic leading-6 text-slate-700 dark:text-white/90 sm:text-base">
+        Grâce Mujinga et Jordan Muteba ont la joie de vous inviter à leur mariage religieux, suivi d’une soirée festive.
+      </h6>
+
+      <h5 class="mt-5 text-sm text-amber-700 dark:text-amber-400">
+        📅 Mercredi, le {{ invitation.mariage.dateMariage }}
+      </h5>
+
+      <h3 class="mx-auto mt-7 w-fit border-b border-yellow-400 px-8 pb-3 font-serif text-xl sm:text-2xl">
+        Programme
+      </h3>
+
+      <!-- Programme : église -->
+      <div class="mt-6 rounded-xl border-l-4 border-amber-700 bg-white/50 p-4 text-left dark:border-amber-400 dark:bg-black/20 sm:p-5">
+        <h4 class="mb-3 text-center text-sm font-medium text-slate-800 dark:text-white sm:text-base">
+          <span class="mr-2 text-2xl text-amber-700 dark:text-amber-400 sm:text-3xl">⛪</span>
+          Bénédiction nuptiale,
+          <strong>12H00</strong>
+        </h4>
+        <p class="text-sm italic leading-6 text-slate-700 dark:text-white/85 sm:text-base">
+          <strong>Église Cité Bethel.</strong>
+          1ère rue Limete industriel, réf. l'église catholique Saint Raph.
+        </p>
+      </div>
+
+      <!-- Programme : réception -->
+      <div class="mt-4 rounded-xl border-l-4 border-amber-700 bg-white/50 p-4 text-left dark:border-amber-400 dark:bg-black/20 sm:p-5">
+        <h4 class="mb-3 text-center text-sm font-medium text-slate-800 dark:text-white sm:text-base">
+          <span class="mr-2 text-2xl text-amber-700 dark:text-amber-400 sm:text-3xl">🥂</span>
+          Soirée dansante,
+          <strong>19H00</strong>
+        </h4>
+        <p class="text-sm italic leading-6 text-slate-700 dark:text-white/85 sm:text-base">
+          Salle de fête <strong>Les Jumelles</strong> de Righini,
+          N° 34 Av. Beni, Q. Righini, C. Lemba, réf. Rond-point Ngaba.
+        </p>
+      </div>
+
+      <p class="mb-5 mt-5 text-sm italic text-amber-700 dark:text-amber-400">
+        Soyez les bienvenus 👋
+      </p>
+
+      <!-- QR code -->
+      <img
+        [src]="invitation.mariage.qr"
+        alt="QR code de l'invitation"
+        class="mx-auto mt-6 h-24 w-24 object-contain sm:h-32 sm:w-32">
+
+      <button
+        type="button"
+        (click)="confirmerPresence()"
+        class="mx-auto mt-6 block w-full cursor-pointer rounded-full bg-amber-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-amber-800 sm:w-auto sm:min-w-64 sm:px-8 dark:bg-amber-400 dark:text-slate-900 dark:hover:bg-amber-300">
+        Télécharger l'invitation ⏬
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- ================= BOISSONS ================= -->
+  <section id="boissons" class="relative isolate overflow-hidden px-4 py-12 sm:px-6 sm:py-16 md:py-20">
+
+    <img
+      [src]="invitation.mariage.reception"
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 -z-20 h-full w-full object-cover">
+
+    <div class="absolute inset-0 -z-10 bg-black/65"></div>
+
+    <div class="relative mx-auto max-w-6xl text-white">
+
+      <div class="mb-8 text-center sm:mb-10">
+        <p class="text-xs uppercase tracking-[0.2em] text-amber-300 sm:tracking-[0.3em]">
+          Une attention pour vous
+        </p>
+
+        <h2 class="mt-3 font-serif text-2xl sm:text-3xl md:text-4xl">
+          Choisissez vos boissons
+        </h2>
+
+        <p class="mx-auto mt-3 max-w-xl text-sm leading-6 text-white/80 sm:text-base">
+          Sélectionnez jusqu'à deux bouteilles pour célébrer avec nous.
+        </p>
+
+        <p class="mt-4 text-sm font-medium text-amber-300">
+          {{ boissonsSelectionnees.length }} / 2 bouteille(s) sélectionnée(s)
+        </p>
+
+        <p class="mt-2 text-xs italic text-white/80">
+          Défilez pour découvrir plus de boissons ↓
+        </p>
+      </div>
+
+      <!-- Liste adaptable -->
+      <div class="grid max-h-[28rem] grid-cols-2 gap-3 overflow-y-auto overscroll-contain rounded-xl border-l-2 border-white/50 p-2 sm:max-h-[34rem] sm:grid-cols-3 sm:gap-4 sm:p-3 lg:grid-cols-4">
+
+        @for (boisson of boissons; track boisson.id) {
+          <button
+            type="button"
+            (click)="selectionnerBoisson(boisson.id)"
+            [disabled]="!estSelectionnee(boisson.id) && boissonsSelectionnees.length >= 2"
+            [attr.aria-pressed]="estSelectionnee(boisson.id)"
+            class="relative min-w-0 cursor-pointer rounded-xl border p-3 text-center transition duration-300 hover:-translate-y-1 hover:shadow-lg sm:rounded-2xl sm:p-4 disabled:cursor-not-allowed disabled:opacity-40"
+            [ngClass]="estSelectionnee(boisson.id)
+              ? 'border-amber-500 bg-amber-50 text-slate-900 ring-2 ring-amber-500/40 dark:bg-amber-950/50 dark:text-white'
+              : 'border-white/20 bg-white/95 text-slate-900 dark:border-white/10 dark:bg-white/10 dark:text-white'">
+
+            @if (estSelectionnee(boisson.id)) {
+              <span class="absolute right-1 top-1 rounded-full bg-amber-700 px-2 py-1 text-[9px] font-semibold text-white sm:right-2 sm:top-2 sm:text-xs">
+                ✓ Choisie
+              </span>
+            }
+
+            <div class="mx-auto mb-3 flex h-24 items-center justify-center sm:h-28">
+              <img
+                [src]="boisson.logo"
+                [alt]="'Logo de ' + boisson.libelle"
+                class="max-h-24 max-w-full object-contain sm:max-h-28"
+                loading="lazy">
+            </div>
+
+            <h3 class="break-words font-serif text-sm font-semibold sm:text-base lg:text-lg">
+              {{ boisson.libelle }}
+            </h3>
+
+            <p class="mt-2 break-words text-xs leading-5 text-slate-600 dark:text-white/70">
+              {{ boisson.description }}
+            </p>
+          </button>
+        }
+      </div>
+
+      <p class="mt-5 text-center text-xs leading-5 text-white/80 sm:text-sm">
+        Votre sélection sera associée à votre invitation personnelle.
+      </p>
+
+      <div class="mt-6 text-center">
+        <button
+          type="button"
+          (click)="enregistrerBoissons()"
+          [disabled]="boissonsSelectionnees.length === 0"
+          class="w-full cursor-pointer rounded-full bg-amber-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:min-w-64 dark:bg-amber-500 dark:hover:bg-amber-400">
+          Enregistrer mon choix
+        </button>
+      </div>
+
+      @if (messageBoissons) {
+        <p role="status" class="mt-4 break-words text-center text-sm" aria-live="polite">
+          {{ messageBoissons }}
+        </p>
+      }
+
+    </div>
+  </section>
+
+
+  <hr class="border-slate-300 dark:border-white/10">
+
+
+  <!-- ================= LIVRE D'OR ================= -->
+  <section id="livre-or" class="relative isolate overflow-hidden px-4 py-12 sm:px-6 sm:py-16 md:py-20">
+
+    <img
+      [src]="invitation.mariage.livre"
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 -z-20 h-full w-full object-cover">
+
+    <div class="absolute inset-0 -z-10 bg-[#212d20]/75"></div>
+
+    <div class="relative mx-auto max-w-3xl text-white">
+
+      <div class="mb-8 text-center sm:mb-10">
+        <p class="text-xs uppercase tracking-[0.2em] text-amber-300 sm:tracking-[0.3em]">
+          Vos mots nous touchent
+        </p>
+
+        <h2 class="mt-3 font-serif text-3xl sm:text-4xl">
+          Livre d'or
+        </h2>
+
+        <p class="mx-auto mt-3 max-w-xl text-sm leading-6 text-white/80 sm:text-base">
+          Laissez-nous un mot, une bénédiction ou un vœu de bonheur pour les mariés.
+        </p>
+      </div>
+
+      <form
+        (submit)="publierMessage($event)"
+        class="rounded-2xl border border-white/15 bg-white/95 p-4 text-slate-900 shadow-xl sm:p-6 md:p-7 dark:bg-black/60 dark:text-white">
+
+        <label for="nomAuteur" class="mb-2 block text-sm font-medium">
+          Votre nom
+        </label>
+
+        <input
+          id="nomAuteur"
+          type="text"
+          name="nomAuteur"
+          [(ngModel)]="nouveauMessage.nom"
+          required
+          maxlength="100"
+          placeholder="Votre nom"
+          class="mb-5 w-full min-w-0 rounded-xl border border-stone-300 bg-transparent px-4 py-3 text-base outline-none transition focus:border-amber-600 focus:ring-2 focus:ring-amber-600/20 dark:border-white/20">
+
+        <label for="texteMessage" class="mb-2 block text-sm font-medium">
+          Votre message
+        </label>
+
+        <textarea
+          id="texteMessage"
+          name="texteMessage"
+          [(ngModel)]="nouveauMessage.texte"
+          required
+          minlength="2"
+          maxlength="1000"
+          rows="4"
+          placeholder="Que souhaitez-vous aux mariés ?"
+          class="w-full min-w-0 resize-y rounded-xl border border-stone-300 bg-transparent px-4 py-3 text-base outline-none transition focus:border-amber-600 focus:ring-2 focus:ring-amber-600/20 dark:border-white/20"></textarea>
+
+        <button
+          type="submit"
+          [disabled]="!nouveauMessage.nom.trim() || !nouveauMessage.texte.trim()"
+          class="mt-5 w-full cursor-pointer rounded-full bg-amber-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-amber-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-amber-500 dark:hover:bg-amber-400">
+          ❤️ Signer le livre d'or
+        </button>
+
+        @if (messageLivreOr) {
+          <p role="status" aria-live="polite" class="mt-4 break-words text-center text-sm">
+            {{ messageLivreOr }}
+          </p>
+        }
+      </form>
+
+      <div class="mt-8 sm:mt-10">
+        <h3 class="mb-5 text-center font-serif text-xl sm:text-2xl">
+          Les petits mots de nos invités
+        </h3>
+
+        @for (message of messagesLivreOr; track message.id) {
+          <article class="mb-4 rounded-2xl border border-white/15 bg-white/90 p-4 text-slate-900 shadow-md sm:p-5 dark:bg-white/10 dark:text-white">
+
+            <div class="flex min-w-0 items-start gap-3 sm:gap-4">
+
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-800 dark:bg-amber-400/20 dark:text-amber-300">
+                ♡
+              </div>
+
+              <div class="min-w-0 flex-1">
+                <h4 class="break-words font-semibold">
+                  {{ message.nom }}
+                </h4>
+
+                <p class="mt-2 whitespace-pre-wrap break-words text-sm leading-6 text-slate-600 dark:text-white/80">
+                  {{ message.texte }}
+                </p>
+              </div>
+
+            </div>
+          </article>
+        } @empty {
+          <p class="py-6 text-center text-sm text-white/80">
+            Soyez le premier à laisser un mot aux mariés.
+          </p>
+        }
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================= LIEU ET CARTE ================= -->
+  <section class="bg-slate-950 px-4 py-12 text-white sm:px-6 sm:py-20 md:py-28">
+
+    <div class="mx-auto max-w-6xl">
+
+      <div class="text-center">
+        <p class="text-xs uppercase tracking-[0.3em] text-amber-400 sm:tracking-[0.4em]">
+          Le lieu
+        </p>
+
+        <h2 class="mt-4 break-words font-serif text-3xl font-light sm:mt-5 sm:text-4xl md:text-5xl">
+          Rendez-vous à
+          <span class="block mt-2">{{ invitation.mariage.lieu }}</span>
+        </h2>
+
+        <p class="mx-auto mt-5 max-w-2xl break-words text-sm leading-6 text-white/70 sm:text-base">
+          {{ invitation.mariage.adresse }}
+        </p>
+      </div>
+
+      <!-- Carte -->
+      <div class="relative mt-8 overflow-hidden rounded-2xl border border-white/10 bg-slate-900 shadow-2xl sm:mt-12 md:mt-14">
+
+        <div class="flex min-h-[300px] items-center justify-center bg-[url('/assets/images/invitation/galerie-3.jpg')] bg-cover bg-center px-3 py-10 sm:min-h-[400px] md:min-h-[500px]">
+
+          <div class="flex w-full max-w-md flex-col items-center">
+
+            <div class="flex h-14 w-14 items-center justify-center rounded-full bg-red-500 text-2xl shadow-2xl sm:h-16 sm:w-16">
+              📍
+            </div>
+
+            <div class="mt-4 max-w-full rounded-xl bg-white px-4 py-4 text-center text-slate-900 shadow-xl sm:px-6">
+              <p class="break-words font-semibold sm:text-lg">
+                {{ invitation.mariage.lieu }}
+              </p>
+
+              <p class="mt-2 break-words text-xs leading-5 text-slate-600 sm:text-sm">
+                {{ invitation.mariage.adresse }}
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-3 border-t border-white/10 p-4 sm:flex-row sm:justify-center sm:p-5">
+          <button
+            type="button"
+            (click)="ouvrirCarte()"
+            class="w-full cursor-pointer rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-amber-100 sm:w-auto sm:min-w-48">
+            🧭 Itinéraire
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================= CONFIRMATION ================= -->
+  <section class="relative isolate overflow-hidden px-4 py-16 sm:px-6 sm:py-24 md:py-36">
+
+    <img
+      [src]="invitation.mariage.hero"
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 -z-20 h-full w-full object-cover object-center">
+
+    <div class="absolute inset-0 -z-10 bg-black/70"></div>
+
+    <div class="relative z-10 mx-auto max-w-2xl text-center text-white">
+
+      <p class="text-xs uppercase tracking-[0.25em] text-white/70 sm:tracking-[0.4em]">
+        Votre présence compte
+      </p>
+
+      <h2 class="mt-5 break-words font-serif text-3xl font-light sm:mt-6 sm:text-5xl md:text-6xl">
+        Serez-vous des nôtres ?
+      </h2>
+
+      <p class="mx-auto mt-5 max-w-xl text-sm leading-7 text-white/80 sm:mt-6 sm:text-base">
+        Nous serions très heureux de vous compter parmi nous.
+      </p>
+
+      <hr class="mx-auto my-6 max-w-xs border-white/30">
+
+      <p class="mx-auto max-w-lg text-xs leading-6 text-amber-300 sm:text-sm">
+        En cas d'indisponibilité, cliquez sur le bouton ci-dessous afin d'annuler votre invitation.
+      </p>
+
+      <button
+        type="button"
+        (click)="confirmerPresence()"
+        class="mt-8 w-full cursor-pointer rounded-full bg-white px-6 py-4 text-sm font-semibold text-slate-900 shadow-2xl transition duration-300 hover:-translate-y-1 hover:bg-amber-50 sm:mt-10 sm:w-auto sm:min-w-64 sm:px-9">
+        Annuler mon invitation
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="relative overflow-hidden bg-white px-4 py-8 sm:px-6 sm:py-12 md:py-16">
+
+    <img
+      [src]="invitation.mariage.logo"
+      alt="Logo du mariage"
+      class="mx-auto h-auto max-h-40 w-full max-w-[800px] object-contain sm:max-h-48 md:max-h-56">
+
+  </footer>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="min-h-screen overflow-x-hidden bg-[#f5f1eb] text-slate-900 ">
+
+  <!-- ================= HERO ================= -->
+  <section class="relative flex min-h-[85svh] items-center justify-center overflow-hidden sm:min-h-screen">
+
+    <!-- Bouton connexion -->
+    <button
+      type="button"
+      (click)="pageLogin()"
+      aria-label="Connexion"
+      class="absolute right-3 top-3 z-30 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-black/40 text-lg text-white backdrop-blur-sm transition hover:bg-black/70 sm:right-6 sm:top-6 sm:h-12 sm:w-12">
+      👤
+    </button>
+
+    <!-- Image principale -->
+    <img
+      [src]="invitation.mariage.hero"
+      alt="Photo des mariés"
+      class="absolute inset-0 h-full w-full object-cover object-center">
+
+    <!-- Voile sombre -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/15 via-black/40 to-black/50"></div>
+
+    <!-- Image superposée -->
+    <img
+      (click)="pageLogin()"
+      [src]="invitation.mariage.save"
+      alt="Image de l'invitation"
+      class="absolute left-1/2 top-3 z-[1] h-20 w-32 -translate-x-1/2 cursor-pointer rounded-lg object-cover shadow-lg sm:top-5 sm:h-28 sm:w-44 md:h-36 md:w-56">
+
+    <!-- Contenu -->
+    <div class="relative z-10 mx-auto w-full max-w-6xl px-4 pb-8 pt-28 text-center text-white sm:px-6 sm:pt-36 md:pt-40">
+
+      <h1 class="mt-4 break-words font-serif text-4xl font-light italic leading-tight tracking-wide sm:text-5xl md:text-7xl lg:text-8xl">
+        {{ invitation.mariage.nomMarie }}
+        <span class="mx-1 text-white/70 sm:mx-3">&amp;</span>
+        {{ invitation.mariage.nomMariee }}
+      </h1>
+
+      <div class="my-5 text-2xl sm:my-8 sm:text-3xl">❤️</div>
+
+      <div class="mx-auto my-5 h-px w-16 bg-white/60 sm:my-8 sm:w-24"></div>
+
+      <p class="font-serif text-xl italic sm:text-2xl md:text-3xl">
+        {{ invitation.mariage.dateMariage }}
+      </p>
+
+      <p class="mx-auto mt-3 inline-block max-w-full rounded-lg bg-black/30 px-4 py-2 text-xs uppercase tracking-[0.2em] sm:text-sm sm:tracking-[0.3em]">
+        {{ invitation.mariage.heureMariage }}
+      </p>
+
+      <button
+        type="button"
+        (click)="faireDefiler('invitation')"
+        class="mx-auto mt-10 flex cursor-pointer flex-col items-center gap-3 rounded-lg px-4 py-2 text-xs uppercase tracking-[0.2em] transition hover:bg-white/10 sm:mt-16 sm:tracking-[0.25em]">
+        Découvrir
+        <span class="animate-bounce text-2xl">↓</span>
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- ================= INVITATION ================= -->
+  <section id="invitation" class="relative isolate overflow-hidden px-4 py-4 sm:px-6 sm:py-20 md:py-28">
+
+    <img
+      [src]="invitation.mariage.ligne"
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 -z-20 h-full w-full object-cover">
+
+    <div class="absolute inset-0 -z-10 bg-white/70 "></div>
+
+    <div class="mx-auto mt-2 max-w-3xl text-center sm:mt-4">
+
+      <p class="text-[10px] uppercase tracking-[0.25em] text-amber-700 sm:text-xs sm:tracking-[0.4em]">
+        Une invitation personnelle
+      </p>
+
+      <h2 class="mt-4 break-words font-serif text-3xl font-light sm:text-4xl md:text-5xl">
+        Couple
+        <span class="italic">{{ invitation.invite.nomComplet }}</span>
+      </h2>
+
+      <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-600  sm:text-base">
+        L’homme s’attachera à sa femme, et tous deux ne feront qu’une seule chair 💍
+      </p>
+
+      <p class="mt-3 text-sm text-purple-600 ">
+        Célébrons l’amour et cette belle union !
+      </p>
+
+      <h6 class="mx-auto mt-4 max-w-2xl text-sm italic leading-6 text-slate-700  sm:text-base">
+        Grâce Mujinga et Jordan Muteba ont la joie de vous inviter à leur mariage religieux, suivi d’une soirée festive.
+      </h6>
+
+      <h5 class="mt-5 text-sm text-amber-700 ">
+        📅 Mercredi, le {{ invitation.mariage.dateMariage }}
+      </h5>
+
+      <h3 class="mx-auto mt-7 w-fit border-b border-yellow-400 px-8 pb-3 font-serif text-xl sm:text-2xl">
+        Programme
+      </h3>
+
+      <!-- Programme : église -->
+      <div class="mt-6 rounded-xl border-l-4 border-amber-700 bg-white/50 p-4 text-left  sm:p-5">
+        <h4 class="mb-3 text-center text-sm font-medium text-slate-800  sm:text-base">
+          <span class="mr-2 text-2xl text-amber-700  sm:text-3xl">⛪</span>
+          Bénédiction nuptiale,
+          <strong>12H00</strong>
+        </h4>
+        <p class="text-sm italic leading-6 text-slate-700  sm:text-base">
+          <strong>Église Cité Bethel.</strong>
+          1ère rue Limete industriel, réf. l'église catholique Saint Raph.
+        </p>
+      </div>
+
+      <!-- Programme : réception -->
+      <div class="mt-4 rounded-xl border-l-4 border-amber-700 bg-white/50 p-4 text-left  sm:p-5">
+        <h4 class="mb-3 text-center text-sm font-medium text-slate-800  sm:text-base">
+          <span class="mr-2 text-2xl text-amber-700  sm:text-3xl">🥂</span>
+          Soirée dansante,
+          <strong>19H00</strong>
+        </h4>
+        <p class="text-sm italic leading-6 text-slate-700  sm:text-base">
+          Salle de fête <strong>Les Jumelles</strong> de Righini,
+          N° 34 Av. Beni, Q. Righini, C. Lemba, réf. Rond-point Ngaba.
+        </p>
+      </div>
+
+      <p class="mb-5 mt-5 text-sm italic text-amber-700 ">
+        Soyez les bienvenus 👋
+      </p>
+
+      <!-- QR code -->
+      <img
+        [src]="invitation.mariage.qr"
+        alt="QR code de l'invitation"
+        class="mx-auto mt-6 h-24 w-24 object-contain sm:h-32 sm:w-32">
+
+      <button
+        type="button"
+        (click)="confirmerPresence()"
+        class="mx-auto mt-6 block w-full cursor-pointer rounded-full bg-amber-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-amber-800 sm:w-auto sm:min-w-64 sm:px-8   ">
+        Télécharger l'invitation ⏬
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- ================= BOISSONS ================= -->
+  <section id="boissons" class="relative isolate overflow-hidden px-4 py-12 sm:px-6 sm:py-16 md:py-20">
+
+    <img
+      [src]="invitation.mariage.reception"
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 -z-20 h-full w-full object-cover">
+
+    <div class="absolute inset-0 -z-10 bg-black/65"></div>
+
+    <div class="relative mx-auto max-w-6xl text-white">
+
+      <div class="mb-8 text-center sm:mb-10">
+        <p class="text-xs uppercase tracking-[0.2em] text-amber-300 sm:tracking-[0.3em]">
+          Une attention pour vous
+        </p>
+
+        <h2 class="mt-3 font-serif text-2xl sm:text-3xl md:text-4xl">
+          Choisissez vos boissons
+        </h2>
+
+        <p class="mx-auto mt-3 max-w-xl text-sm leading-6 text-white/80 sm:text-base">
+          Sélectionnez jusqu'à deux bouteilles pour célébrer avec nous.
+        </p>
+
+        <p class="mt-4 text-sm font-medium text-amber-300">
+          {{ boissonsSelectionnees.length }} / 2 bouteille(s) sélectionnée(s)
+        </p>
+
+        <p class="mt-2 text-xs italic text-white/80">
+          Défilez pour découvrir plus de boissons ↓
+        </p>
+      </div>
+
+      <!-- Liste adaptable -->
+      <div class="grid max-h-[28rem] grid-cols-2 gap-3 overflow-y-auto overscroll-contain rounded-xl border-l-2 border-white/50 p-2 sm:max-h-[34rem] sm:grid-cols-3 sm:gap-4 sm:p-3 lg:grid-cols-4">
+
+        @for (boisson of boissons; track boisson.id) {
+          <button
+            type="button"
+            (click)="selectionnerBoisson(boisson.id)"
+            [disabled]="!estSelectionnee(boisson.id) && boissonsSelectionnees.length >= 2"
+            [attr.aria-pressed]="estSelectionnee(boisson.id)"
+            class="relative min-w-0 cursor-pointer rounded-xl border p-3 text-center transition duration-300 hover:-translate-y-1 hover:shadow-lg sm:rounded-2xl sm:p-4 disabled:cursor-not-allowed disabled:opacity-40"
+            [ngClass]="estSelectionnee(boisson.id)
+              ? 'border-amber-500 bg-amber-50 text-slate-900 ring-2 ring-amber-500/40 '
+              : 'border-white/20 bg-white/95 text-slate-900   '">
+
+            @if (estSelectionnee(boisson.id)) {
+              <span class="absolute right-1 top-1 rounded-full bg-amber-700 px-2 py-1 text-[9px] font-semibold text-white sm:right-2 sm:top-2 sm:text-xs">
+                ✓ Choisie
+              </span>
+            }
+
+            <div class="mx-auto mb-3 flex h-24 items-center justify-center sm:h-28">
+              <img
+                [src]="boisson.logo"
+                [alt]="'Logo de ' + boisson.libelle"
+                class="max-h-24 max-w-full object-contain sm:max-h-28"
+                loading="lazy">
+            </div>
+
+            <h3 class="break-words font-serif text-sm font-semibold sm:text-base lg:text-lg">
+              {{ boisson.libelle }}
+            </h3>
+
+            <p class="mt-2 break-words text-xs leading-5 text-slate-600 /70">
+              {{ boisson.description }}
+            </p>
+          </button>
+        }
+      </div>
+
+      <p class="mt-5 text-center text-xs leading-5 text-white/80 sm:text-sm">
+        Votre sélection sera associée à votre invitation personnelle.
+      </p>
+
+      <div class="mt-6 text-center">
+        <button
+          type="button"
+          (click)="enregistrerBoissons()"
+          [disabled]="boissonsSelectionnees.length === 0"
+          class="w-full cursor-pointer rounded-full bg-amber-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:min-w-64  ">
+          Enregistrer mon choix
+        </button>
+      </div>
+
+      @if (messageBoissons) {
+        <p role="status" class="mt-4 break-words text-center text-sm" aria-live="polite">
+          {{ messageBoissons }}
+        </p>
+      }
+
+    </div>
+  </section>
+
+
+  <hr class="border-slate-300 ">
+
+
+  <!-- ================= LIVRE D'OR ================= -->
+  <section id="livre-or" class="relative isolate overflow-hidden px-4 py-12 sm:px-6 sm:py-16 md:py-20">
+
+    <img
+      [src]="invitation.mariage.livre"
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 -z-20 h-full w-full object-cover">
+
+    <div class="absolute inset-0 -z-10 bg-[#212d20]/75"></div>
+
+    <div class="relative mx-auto max-w-3xl text-white">
+
+      <div class="mb-8 text-center sm:mb-10">
+        <p class="text-xs uppercase tracking-[0.2em] text-amber-300 sm:tracking-[0.3em]">
+          Vos mots nous touchent
+        </p>
+
+        <h2 class="mt-3 font-serif text-3xl sm:text-4xl">
+          Livre d'or
+        </h2>
+
+        <p class="mx-auto mt-3 max-w-xl text-sm leading-6 text-white/80 sm:text-base">
+          Laissez-nous un mot, une bénédiction ou un vœu de bonheur pour les mariés.
+        </p>
+      </div>
+
+      <form
+        (submit)="publierMessage($event)"
+        class="rounded-2xl border border-white/15 bg-white/95 p-4 text-slate-900 shadow-xl sm:p-6 md:p-7  ">
+
+        <label for="nomAuteur" class="mb-2 block text-sm font-medium">
+          Votre nom
+        </label>
+
+        <input
+          id="nomAuteur"
+          type="text"
+          name="nomAuteur"
+          [(ngModel)]="nouveauMessage.nom"
+          required
+          maxlength="100"
+          placeholder="Votre nom"
+          class="mb-5 w-full min-w-0 rounded-xl border border-stone-300 bg-transparent px-4 py-3 text-base outline-none transition focus:border-amber-600 focus:ring-2 focus:ring-amber-600/20 ">
+
+        <label for="texteMessage" class="mb-2 block text-sm font-medium">
+          Votre message
+        </label>
+
+        <textarea
+          id="texteMessage"
+          name="texteMessage"
+          [(ngModel)]="nouveauMessage.texte"
+          required
+          minlength="2"
+          maxlength="1000"
+          rows="4"
+          placeholder="Que souhaitez-vous aux mariés ?"
+          class="w-full min-w-0 resize-y rounded-xl border border-stone-300 bg-transparent px-4 py-3 text-base outline-none transition focus:border-amber-600 focus:ring-2 focus:ring-amber-600/20 "></textarea>
+
+        <button
+          type="submit"
+          [disabled]="!nouveauMessage.nom.trim() || !nouveauMessage.texte.trim()"
+          class="mt-5 w-full cursor-pointer rounded-full bg-amber-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-amber-800 disabled:cursor-not-allowed disabled:opacity-50  ">
+          ❤️ Signer le livre d'or
+        </button>
+
+        @if (messageLivreOr) {
+          <p role="status" aria-live="polite" class="mt-4 break-words text-center text-sm">
+            {{ messageLivreOr }}
+          </p>
+        }
+      </form>
+
+      <div class="mt-8 sm:mt-10">
+        <h3 class="mb-5 text-center font-serif text-xl sm:text-2xl">
+          Les petits mots de nos invités
+        </h3>
+
+        @for (message of messagesLivreOr; track message.id) {
+          <article class="mb-4 rounded-2xl border border-white/15 bg-white/90 p-4 text-slate-900 shadow-md sm:p-5  ">
+
+            <div class="flex min-w-0 items-start gap-3 sm:gap-4">
+
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-800 /20 ">
+                ♡
+              </div>
+
+              <div class="min-w-0 flex-1">
+                <h4 class="break-words font-semibold">
+                  {{ message.nom }}
+                </h4>
+
+                <p class="mt-2 whitespace-pre-wrap break-words text-sm leading-6 text-slate-600 /80">
+                  {{ message.texte }}
+                </p>
+              </div>
+
+            </div>
+          </article>
+        } @empty {
+          <p class="py-6 text-center text-sm text-white/80">
+            Soyez le premier à laisser un mot aux mariés.
+          </p>
+        }
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================= LIEU ET CARTE ================= -->
+  <section class="bg-slate-950 px-4 py-12 text-white sm:px-6 sm:py-20 md:py-28">
+
+    <div class="mx-auto max-w-6xl">
+
+      <div class="text-center">
+        <p class="text-xs uppercase tracking-[0.3em] text-amber-400 sm:tracking-[0.4em]">
+          Le lieu
+        </p>
+
+        <h2 class="mt-4 break-words font-serif text-3xl font-light sm:mt-5 sm:text-4xl md:text-5xl">
+          Rendez-vous à
+          <span class="block mt-2">{{ invitation.mariage.lieu }}</span>
+        </h2>
+
+        <p class="mx-auto mt-5 max-w-2xl break-words text-sm leading-6 text-white/70 sm:text-base">
+          {{ invitation.mariage.adresse }}
+        </p>
+      </div>
+
+      <!-- Carte -->
+      <div class="relative mt-8 overflow-hidden rounded-2xl border border-white/10 bg-slate-900 shadow-2xl sm:mt-12 md:mt-14">
+
+        <div class="flex min-h-[300px] items-center justify-center bg-[url('/assets/images/invitation/galerie-3.jpg')] bg-cover bg-center px-3 py-10 sm:min-h-[400px] md:min-h-[500px]">
+
+          <div class="flex w-full max-w-md flex-col items-center">
+
+            <div class="flex h-14 w-14 items-center justify-center rounded-full bg-red-500 text-2xl shadow-2xl sm:h-16 sm:w-16">
+              📍
+            </div>
+
+            <div class="mt-4 max-w-full rounded-xl bg-white px-4 py-4 text-center text-slate-900 shadow-xl sm:px-6">
+              <p class="break-words font-semibold sm:text-lg">
+                {{ invitation.mariage.lieu }}
+              </p>
+
+              <p class="mt-2 break-words text-xs leading-5 text-slate-600 sm:text-sm">
+                {{ invitation.mariage.adresse }}
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-3 border-t border-white/10 p-4 sm:flex-row sm:justify-center sm:p-5">
+          <button
+            type="button"
+            (click)="ouvrirCarte()"
+            class="w-full cursor-pointer rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-amber-100 sm:w-auto sm:min-w-48">
+            🧭 Itinéraire
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================= CONFIRMATION ================= -->
+  <section class="relative isolate overflow-hidden px-4 py-16 sm:px-6 sm:py-24 md:py-36">
+
+    <img
+      [src]="invitation.mariage.hero"
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 -z-20 h-full w-full object-cover object-center">
+
+    <div class="absolute inset-0 -z-10 bg-black/70"></div>
+
+    <div class="relative z-10 mx-auto max-w-2xl text-center text-white">
+
+      <p class="text-xs uppercase tracking-[0.25em] text-white/70 sm:tracking-[0.4em]">
+        Votre présence compte
+      </p>
+
+      <h2 class="mt-5 break-words font-serif text-3xl font-light sm:mt-6 sm:text-5xl md:text-6xl">
+        Serez-vous des nôtres ?
+      </h2>
+
+      <p class="mx-auto mt-5 max-w-xl text-sm leading-7 text-white/80 sm:mt-6 sm:text-base">
+        Nous serions très heureux de vous compter parmi nous.
+      </p>
+
+      <hr class="mx-auto my-6 max-w-xs border-white/30">
+
+      <p class="mx-auto max-w-lg text-xs leading-6 text-amber-300 sm:text-sm">
+        En cas d'indisponibilité, cliquez sur le bouton ci-dessous afin d'annuler votre invitation.
+      </p>
+
+      <button
+        type="button"
+        (click)="confirmerPresence()"
+        class="mt-8 w-full cursor-pointer rounded-full bg-white px-6 py-4 text-sm font-semibold text-slate-900 shadow-2xl transition duration-300 hover:-translate-y-1 hover:bg-amber-50 sm:mt-10 sm:w-auto sm:min-w-64 sm:px-9">
+        Annuler mon invitation
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="relative overflow-hidden bg-white px-4 py-8 sm:px-6 sm:py-12 md:py-16">
+
+    <img
+      [src]="invitation.mariage.logo"
+      alt="Logo du mariage"
+      class="mx-auto h-auto max-h-40 w-full max-w-[800px] object-contain sm:max-h-48 md:max-h-56">
+
+  </footer>
+
+</div>
