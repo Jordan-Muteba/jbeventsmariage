@@ -1,0 +1,726 @@
+
+<div class="min-h-screen bg-slate-50 p-4 text-slate-800 transition-colors duration-300 dark:bg-gray-950 dark:text-gray-100 sm:p-6 lg:p-8">
+
+    <!-- En-tête -->
+    <div class="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+        <div>
+            <p class="mb-1 text-sm font-semibold uppercase tracking-widest text-rose-600 dark:text-rose-400">
+                Administration
+            </p>
+
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl">
+                Gestion des mariages
+            </h1>
+
+            <p class="mt-2 text-sm text-slate-500 dark:text-gray-400">
+                Crée les mariages, consulte leurs détails et associe les comptes des deux membres du couple.
+            </p>
+        </div>
+
+        <button
+            type="button"
+            (click)="ouvrirCreation()"
+            class="rounded-xl bg-rose-600 px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950">
+            + Nouveau mariage
+        </button>
+    </div>
+
+    <!-- Message de confirmation ou d'erreur -->
+    <div
+        *ngIf="message"
+        class="mb-6 rounded-xl border p-4 transition-colors duration-300"
+        [ngClass]="typeMessage === 'succes'
+            ? 'border-green-200 bg-green-50 text-green-800 dark:border-green-800 dark:bg-green-950/40 dark:text-green-300'
+            : 'border-red-200 bg-red-50 text-red-800 dark:border-red-800 dark:bg-red-950/40 dark:text-red-300'">
+        {{ message }}
+    </div>
+
+    <!-- Statistiques -->
+    <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+
+        <!-- Total des mariages -->
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-colors duration-300 dark:border-gray-800 dark:bg-gray-900">
+            <div class="flex items-center justify-between gap-3">
+                <p class="text-sm text-slate-500 dark:text-gray-400">
+                    Total des mariages
+                </p>
+                <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-50 text-xl dark:bg-rose-950/50">
+                    💍
+                </span>
+            </div>
+
+            <p class="mt-3 text-3xl font-bold text-slate-900 dark:text-white">
+                {{ mariages.length }}
+            </p>
+        </div>
+
+        <!-- Couples associés -->
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-colors duration-300 dark:border-gray-800 dark:bg-gray-900">
+            <div class="flex items-center justify-between gap-3">
+                <p class="text-sm text-slate-500 dark:text-gray-400">
+                    Couples associés
+                </p>
+                <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-green-50 text-xl dark:bg-green-950/50">
+                    ❤️
+                </span>
+            </div>
+
+            <p class="mt-3 text-3xl font-bold text-green-600 dark:text-green-400">
+                {{ compterCouplesAssocies() }}
+            </p>
+        </div>
+
+        <!-- Comptes disponibles -->
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-colors duration-300 dark:border-gray-800 dark:bg-gray-900">
+            <div class="flex items-center justify-between gap-3">
+                <p class="text-sm text-slate-500 dark:text-gray-400">
+                    Comptes MARIE disponibles
+                </p>
+                <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-xl dark:bg-amber-950/50">
+                    👥
+                </span>
+            </div>
+
+            <p class="mt-3 text-3xl font-bold text-rose-600 dark:text-rose-400">
+                {{ utilisateursMarie.length }}
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Chargement -->
+    <div
+        *ngIf="chargement"
+        class="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm transition-colors duration-300 dark:border-gray-800 dark:bg-gray-900">
+
+        <div class="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-rose-200 border-t-rose-600 dark:border-gray-700 dark:border-t-rose-400"></div>
+
+        <p class="text-slate-500 dark:text-gray-400">
+            Chargement des mariages et des comptes...
+        </p>
+    </div>
+
+    <!-- Liste des mariages -->
+    <div
+        *ngIf="!chargement"
+        class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-colors duration-300 dark:border-gray-800 dark:bg-gray-900">
+
+        <div class="border-b border-slate-200 p-5 dark:border-gray-800">
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white">
+                Liste des mariages
+            </h2>
+
+            <p class="mt-1 text-sm text-slate-500 dark:text-gray-400">
+                Consulte les informations, modifie un mariage ou associe les deux comptes.
+            </p>
+        </div>
+
+        <!-- Aucun mariage -->
+        <div *ngIf="mariages.length === 0" class="p-10 text-center">
+            <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-rose-50 text-3xl dark:bg-rose-950/50">
+                💍
+            </div>
+
+            <p class="font-semibold text-slate-800 dark:text-gray-200">
+                Aucun mariage enregistré.
+            </p>
+
+            <p class="mt-2 text-sm text-slate-500 dark:text-gray-400">
+                Clique sur « Nouveau mariage » pour commencer.
+            </p>
+        </div>
+
+        <!-- Tableau -->
+        <div *ngIf="mariages.length > 0" class="overflow-x-auto">
+            <table class="w-full min-w-[900px] text-left text-sm">
+
+                <thead class="bg-slate-50 text-xs uppercase text-slate-500 dark:bg-gray-800 dark:text-gray-300">
+                    <tr>
+                        <th class="px-5 py-4 font-semibold">Mariage</th>
+                        <th class="px-5 py-4 font-semibold">Date</th>
+                        <th class="px-5 py-4 font-semibold">Compte du marié</th>
+                        <th class="px-5 py-4 font-semibold">Compte de la mariée</th>
+                        <th class="px-5 py-4 text-right font-semibold">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-slate-100 dark:divide-gray-800">
+                    <tr
+                        *ngFor="let mariage of mariages"
+                        class="transition-colors duration-200 hover:bg-slate-50 dark:hover:bg-gray-800/70">
+
+                        <!-- Informations du mariage -->
+                        <td class="px-5 py-4">
+                            <p class="font-semibold text-slate-900 dark:text-white">
+                                {{ mariage.nomMarie }} & {{ mariage.nomMariee }}
+                            </p>
+
+                            <p class="mt-1 text-xs text-slate-500 dark:text-gray-400">
+                                ID : {{ mariage.id }}
+                            </p>
+                        </td>
+
+                        <!-- Date -->
+                        <td class="px-5 py-4 text-slate-700 dark:text-gray-300">
+                            {{ mariage.dateMariage || 'Non définie' }}
+                        </td>
+
+                        <!-- Compte du marié -->
+                        <td class="px-5 py-4">
+                            <span
+                                *ngIf="mariage.utilisateurMarie; else marieNonAssocie"
+                                class="inline-flex items-center gap-2 font-medium text-green-700 dark:text-green-400">
+
+                                <span class="h-2 w-2 rounded-full bg-green-500"></span>
+
+                                {{ mariage.utilisateurMarie.prenom }}
+                                {{ mariage.utilisateurMarie.nom }}
+                            </span>
+
+                            <ng-template #marieNonAssocie>
+                                <span class="inline-flex items-center gap-2 text-amber-600 dark:text-amber-400">
+                                    <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+                                    Non associé
+                                </span>
+                            </ng-template>
+                        </td>
+
+                        <!-- Compte de la mariée -->
+                        <td class="px-5 py-4">
+                            <span
+                                *ngIf="mariage.utilisateurMariee; else marieeNonAssocie"
+                                class="inline-flex items-center gap-2 font-medium text-green-700 dark:text-green-400">
+
+                                <span class="h-2 w-2 rounded-full bg-green-500"></span>
+
+                                {{ mariage.utilisateurMariee.prenom }}
+                                {{ mariage.utilisateurMariee.nom }}
+                            </span>
+
+                            <ng-template #marieeNonAssocie>
+                                <span class="inline-flex items-center gap-2 text-amber-600 dark:text-amber-400">
+                                    <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+                                    Non associée
+                                </span>
+                            </ng-template>
+                        </td>
+
+                        <!-- Actions -->
+                        <td class="px-5 py-4">
+                            <div class="flex flex-wrap justify-end gap-2">
+
+                                <!-- Détails -->
+                                <button
+                                    type="button"
+                                    (click)="ouvrirDetails(mariage)"
+                                    class="whitespace-nowrap rounded-lg border border-slate-200 px-3 py-2 font-semibold text-slate-700 transition hover:bg-slate-100 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800">
+                                    Détails
+                                </button>
+
+                                <!-- Modifier -->
+                                <button
+                                    type="button"
+                                    (click)="ouvrirModification(mariage)"
+                                    class="whitespace-nowrap rounded-lg border border-blue-200 px-3 py-2 font-semibold text-blue-700 transition hover:bg-blue-50 dark:border-blue-900 dark:text-blue-300 dark:hover:bg-blue-950/50">
+                                    Modifier
+                                </button>
+
+                                <!-- Association -->
+                                <button
+                                    type="button"
+                                    (click)="ouvrirAssociation(mariage)"
+                                    class="whitespace-nowrap rounded-lg border border-rose-200 px-3 py-2 font-semibold text-rose-700 transition hover:bg-rose-50 dark:border-rose-900 dark:text-rose-300 dark:hover:bg-rose-950/60">
+                                    Associer
+                                </button>
+
+                            </div>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Fenêtre de création ou de modification -->
+    <div
+        *ngIf="afficherFormulaire"
+        class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-950/60 p-4 backdrop-blur-sm">
+
+        <div class="my-6 w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-200 bg-white text-slate-800 shadow-2xl transition-colors duration-300 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100">
+
+            <!-- En-tête -->
+            <div class="flex items-center justify-between border-b border-slate-200 p-5 dark:border-gray-800">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white">
+                        {{ modeModification ? 'Modifier le mariage' : 'Créer un mariage' }}
+                    </h2>
+
+                    <p class="mt-1 text-sm text-slate-500 dark:text-gray-400">
+                        {{ modeModification
+                            ? 'Modifie les informations nécessaires puis enregistre.'
+                            : 'Renseigne les informations du mariage. Les comptes seront associés ensuite.' }}
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    (click)="fermerCreation()"
+                    aria-label="Fermer"
+                    class="rounded-lg px-3 py-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Formulaire -->
+            <form
+                (ngSubmit)="enregistrerMariage()"
+                class="grid grid-cols-1 gap-4 p-5 sm:grid-cols-2">
+
+                <!-- Nom du marié -->
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-gray-300">
+                        Nom du marié *
+                    </label>
+
+                    <input
+                        name="nomMarie"
+                        [(ngModel)]="formulaire.nomMarie"
+                        required
+                        placeholder="Nom du marié"
+                        class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-rose-400 dark:focus:ring-rose-950">
+                </div>
+
+                <!-- Nom de la mariée -->
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-gray-300">
+                        Nom de la mariée *
+                    </label>
+
+                    <input
+                        name="nomMariee"
+                        [(ngModel)]="formulaire.nomMariee"
+                        required
+                        placeholder="Nom de la mariée"
+                        class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-rose-400 dark:focus:ring-rose-950">
+                </div>
+
+                <!-- Date -->
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-gray-300">
+                        Date du mariage
+                    </label>
+
+                    <input
+                        type="date"
+                        name="dateMariage"
+                        [(ngModel)]="formulaire.dateMariage"
+                        class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-rose-500 focus:ring-2 focus:ring-rose-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:border-rose-400 dark:focus:ring-rose-950">
+                </div>
+
+                <!-- Heure -->
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-gray-300">
+                        Heure
+                    </label>
+
+                    <input
+                        type="time"
+                        name="heureMariage"
+                        [(ngModel)]="formulaire.heureMariage"
+                        class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-rose-500 focus:ring-2 focus:ring-rose-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:border-rose-400 dark:focus:ring-rose-950">
+                </div>
+
+                <!-- Lieu -->
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-gray-300">
+                        Lieu
+                    </label>
+
+                    <input
+                        name="lieu"
+                        [(ngModel)]="formulaire.lieu"
+                        placeholder="Nom de la salle"
+                        class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-rose-400 dark:focus:ring-rose-950">
+                </div>
+
+                <!-- Adresse -->
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-gray-300">
+                        Adresse
+                    </label>
+
+                    <input
+                        name="adresse"
+                        [(ngModel)]="formulaire.adresse"
+                        placeholder="Adresse du lieu"
+                        class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-rose-400 dark:focus:ring-rose-950">
+                </div>
+
+                <!-- Photo principale -->
+                <div class="sm:col-span-2">
+                    <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-gray-300">
+                        URL de la photo principale
+                    </label>
+
+                    <input
+                        name="photoPrincipale"
+                        [(ngModel)]="formulaire.photoPrincipale"
+                        placeholder="https://exemple.com/photo.jpg"
+                        class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-rose-400 dark:focus:ring-rose-950">
+                </div>
+
+                <!-- Vidéo -->
+                <div class="sm:col-span-2">
+                    <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-gray-300">
+                        URL de la vidéo
+                    </label>
+
+                    <input
+                        name="video"
+                        [(ngModel)]="formulaire.video"
+                        placeholder="https://exemple.com/video"
+                        class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-rose-400 dark:focus:ring-rose-950">
+                </div>
+
+                <!-- Description -->
+                <div class="sm:col-span-2">
+                    <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-gray-300">
+                        Description
+                    </label>
+
+                    <textarea
+                        name="description"
+                        [(ngModel)]="formulaire.description"
+                        rows="3"
+                        placeholder="Informations sur le mariage"
+                        class="w-full resize-y rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-rose-400 dark:focus:ring-rose-950"></textarea>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex flex-col-reverse justify-end gap-3 border-t border-slate-200 pt-4 dark:border-gray-800 sm:col-span-2 sm:flex-row">
+
+                    <button
+                        type="button"
+                        (click)="fermerCreation()"
+                        class="rounded-xl border border-slate-300 bg-white px-4 py-3 font-medium text-slate-700 transition hover:bg-slate-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700">
+                        Annuler
+                    </button>
+
+                    <button
+                        type="submit"
+                        [disabled]="enregistrement"
+                        class="rounded-xl bg-rose-600 px-5 py-3 font-semibold text-white transition hover:bg-rose-700 disabled:cursor-not-allowed disabled:opacity-50">
+                        {{
+                            enregistrement
+                                ? (modeModification ? 'Enregistrement...' : 'Création...')
+                                : (modeModification ? 'Enregistrer les modifications' : 'Créer le mariage')
+                        }}
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Fenêtre des détails -->
+    <div
+        *ngIf="afficherDetails && mariageSelectionne"
+        class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-950/60 p-4 backdrop-blur-sm">
+
+        <div class="my-6 w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-200 bg-white text-slate-800 shadow-2xl dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100">
+
+            <!-- En-tête -->
+            <div class="flex items-center justify-between border-b border-slate-200 p-5 dark:border-gray-800">
+                <div>
+                    <p class="text-sm font-semibold uppercase tracking-widest text-rose-600 dark:text-rose-400">
+                        Administration
+                    </p>
+
+                    <h2 class="mt-1 text-xl font-bold text-slate-900 dark:text-white">
+                        Détails du mariage
+                    </h2>
+
+                    <p class="mt-1 text-sm text-slate-500 dark:text-gray-400">
+                        Mariage n° {{ mariageSelectionne.id }}
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    (click)="fermerDetails()"
+                    aria-label="Fermer"
+                    class="rounded-lg px-3 py-2 text-slate-500 transition hover:bg-slate-100 dark:text-gray-400 dark:hover:bg-gray-800">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Informations du mariage -->
+            <div class="space-y-4 p-5">
+
+                <div class="rounded-xl bg-rose-50 p-4 dark:bg-rose-950/30">
+                    <p class="text-sm text-slate-500 dark:text-gray-400">
+                        Couple
+                    </p>
+
+                    <h3 class="mt-1 text-xl font-bold text-rose-700 dark:text-rose-300">
+                        {{ mariageSelectionne.nomMarie }} &amp; {{ mariageSelectionne.nomMariee }}
+                    </h3>
+                </div>
+
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
+                    <div class="rounded-xl border border-slate-200 p-4 dark:border-gray-800">
+                        <p class="text-sm text-slate-500 dark:text-gray-400">Date du mariage</p>
+                        <p class="mt-1 font-semibold">
+                            {{ mariageSelectionne.dateMariage || 'Non définie' }}
+                        </p>
+                    </div>
+
+                    <div class="rounded-xl border border-slate-200 p-4 dark:border-gray-800">
+                        <p class="text-sm text-slate-500 dark:text-gray-400">Heure</p>
+                        <p class="mt-1 font-semibold">
+                            {{ mariageSelectionne.heureMariage || 'Non définie' }}
+                        </p>
+                    </div>
+
+                    <div class="rounded-xl border border-slate-200 p-4 dark:border-gray-800">
+                        <p class="text-sm text-slate-500 dark:text-gray-400">Lieu</p>
+                        <p class="mt-1 font-semibold">
+                            {{ mariageSelectionne.lieu || 'Non défini' }}
+                        </p>
+                    </div>
+
+                    <div class="rounded-xl border border-slate-200 p-4 dark:border-gray-800">
+                        <p class="text-sm text-slate-500 dark:text-gray-400">Adresse</p>
+                        <p class="mt-1 font-semibold">
+                            {{ mariageSelectionne.adresse || 'Non renseignée' }}
+                        </p>
+                    </div>
+
+                    <!-- Compte du marié -->
+                    <div class="rounded-xl border border-slate-200 p-4 dark:border-gray-800 sm:col-span-2">
+                        <p class="text-sm text-slate-500 dark:text-gray-400">
+                            Compte du marié
+                        </p>
+
+                        <ng-container *ngIf="mariageSelectionne.utilisateurMarie; else detailsMarieAbsent">
+                            <p class="mt-1 font-semibold">
+                                {{ mariageSelectionne.utilisateurMarie.prenom }}
+                                {{ mariageSelectionne.utilisateurMarie.nom }}
+                            </p>
+                            <p class="mt-1 text-sm text-slate-500 dark:text-gray-400">
+                                {{ mariageSelectionne.utilisateurMarie.email }}
+                            </p>
+                        </ng-container>
+
+                        <ng-template #detailsMarieAbsent>
+                            <p class="mt-1 text-amber-600 dark:text-amber-400">
+                                Aucun compte associé
+                            </p>
+                        </ng-template>
+                    </div>
+
+                    <!-- Compte de la mariée -->
+                    <div class="rounded-xl border border-slate-200 p-4 dark:border-gray-800 sm:col-span-2">
+                        <p class="text-sm text-slate-500 dark:text-gray-400">
+                            Compte de la mariée
+                        </p>
+
+                        <ng-container *ngIf="mariageSelectionne.utilisateurMariee; else detailsMarieeAbsent">
+                            <p class="mt-1 font-semibold">
+                                {{ mariageSelectionne.utilisateurMariee.prenom }}
+                                {{ mariageSelectionne.utilisateurMariee.nom }}
+                            </p>
+                            <p class="mt-1 text-sm text-slate-500 dark:text-gray-400">
+                                {{ mariageSelectionne.utilisateurMariee.email }}
+                            </p>
+                        </ng-container>
+
+                        <ng-template #detailsMarieeAbsent>
+                            <p class="mt-1 text-amber-600 dark:text-amber-400">
+                                Aucun compte associé
+                            </p>
+                        </ng-template>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="rounded-xl border border-slate-200 p-4 dark:border-gray-800 sm:col-span-2">
+                        <p class="text-sm text-slate-500 dark:text-gray-400">
+                            Description
+                        </p>
+                        <p class="mt-1 whitespace-pre-line">
+                            {{ mariageSelectionne.description || 'Aucune description renseignée.' }}
+                        </p>
+                    </div>
+
+                    <!-- Photo -->
+                    <div class="rounded-xl border border-slate-200 p-4 dark:border-gray-800 sm:col-span-2">
+                        <p class="text-sm text-slate-500 dark:text-gray-400">
+                            Photo principale
+                        </p>
+
+                        <ng-container *ngIf="mariageSelectionne.photoPrincipale; else aucunePhoto">
+                            <a
+                                [href]="mariageSelectionne.photoPrincipale"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="mt-1 block break-all text-rose-600 hover:underline dark:text-rose-400">
+                                {{ mariageSelectionne.photoPrincipale }}
+                            </a>
+                        </ng-container>
+
+                        <ng-template #aucunePhoto>
+                            <p class="mt-1">Aucune photo renseignée.</p>
+                        </ng-template>
+                    </div>
+
+                    <!-- Vidéo -->
+                    <div class="rounded-xl border border-slate-200 p-4 dark:border-gray-800 sm:col-span-2">
+                        <p class="text-sm text-slate-500 dark:text-gray-400">
+                            Vidéo
+                        </p>
+
+                        <ng-container *ngIf="mariageSelectionne.video; else aucuneVideo">
+                            <a
+                                [href]="mariageSelectionne.video"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="mt-1 block break-all text-rose-600 hover:underline dark:text-rose-400">
+                                {{ mariageSelectionne.video }}
+                            </a>
+                        </ng-container>
+
+                        <ng-template #aucuneVideo>
+                            <p class="mt-1">Aucune vidéo renseignée.</p>
+                        </ng-template>
+                    </div>
+
+                </div>
+
+                <!-- Actions -->
+                <div class="flex flex-col-reverse justify-end gap-3 border-t border-slate-200 pt-4 dark:border-gray-800 sm:flex-row">
+
+                    <button
+                        type="button"
+                        (click)="fermerDetails()"
+                        class="rounded-xl border border-slate-300 bg-white px-4 py-3 font-medium text-slate-700 transition hover:bg-slate-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700">
+                        Fermer
+                    </button>
+
+                    <button
+                        type="button"
+                        (click)="ouvrirModification(mariageSelectionne)"
+                        class="rounded-xl bg-rose-600 px-5 py-3 font-semibold text-white transition hover:bg-rose-700">
+                        Modifier ce mariage
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Fenêtre d'association des deux comptes -->
+    <div
+        *ngIf="afficherAssociation && mariageSelectionne"
+        class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-950/60 p-4 backdrop-blur-sm">
+
+        <div class="my-6 w-full max-w-xl overflow-hidden rounded-2xl border border-slate-200 bg-white text-slate-800 shadow-2xl transition-colors duration-300 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100">
+
+            <!-- En-tête -->
+            <div class="border-b border-slate-200 p-5 dark:border-gray-800">
+                <p class="text-sm font-semibold uppercase tracking-wider text-rose-600 dark:text-rose-400">
+                    Association du couple
+                </p>
+
+                <h2 class="mt-1 text-xl font-bold text-slate-900 dark:text-white">
+                    {{ mariageSelectionne.nomMarie }} &amp; {{ mariageSelectionne.nomMariee }}
+                </h2>
+
+                <p class="mt-2 text-sm text-slate-500 dark:text-gray-400">
+                    Mariage n° {{ mariageSelectionne.id }}
+                </p>
+            </div>
+
+            <!-- Formulaire d'association -->
+            <form (ngSubmit)="associerCouple()" class="space-y-5 p-5">
+
+                <!-- Compte du marié -->
+                <div>
+                    <label class="mb-2 block text-sm font-semibold text-slate-700 dark:text-gray-300">
+                        Compte du marié
+                    </label>
+
+                    <select
+                        name="utilisateurMarieId"
+                        [(ngModel)]="association.utilisateurMarieId"
+                        required
+                        class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-rose-500 focus:ring-2 focus:ring-rose-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:border-rose-400 dark:focus:ring-rose-950">
+
+                        <option [ngValue]="0" disabled>
+                            Choisir le compte du marié
+                        </option>
+
+                        <option *ngFor="let u of utilisateursMarie" [ngValue]="u.id">
+                            {{ u.prenom }} {{ u.nom }} — {{ u.email }}
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Compte de la mariée -->
+                <div>
+                    <label class="mb-2 block text-sm font-semibold text-slate-700 dark:text-gray-300">
+                        Compte de la mariée
+                    </label>
+
+                    <select
+                        name="utilisateurMarieeId"
+                        [(ngModel)]="association.utilisateurMarieeId"
+                        required
+                        class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-rose-500 focus:ring-2 focus:ring-rose-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:border-rose-400 dark:focus:ring-rose-950">
+
+                        <option [ngValue]="0" disabled>
+                            Choisir le compte de la mariée
+                        </option>
+
+                        <option *ngFor="let u of utilisateursMarie" [ngValue]="u.id">
+                            {{ u.prenom }} {{ u.nom }} — {{ u.email }}
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Rappel des règles -->
+                <div class="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-300">
+                    <p class="font-semibold">À vérifier avant l'association</p>
+
+                    <ul class="mt-2 list-inside list-disc space-y-1">
+                        <li>Les deux comptes doivent être différents.</li>
+                        <li>Les deux comptes doivent être actifs.</li>
+                        <li>Les deux comptes doivent avoir le rôle MARIE.</li>
+                        <li>Un compte ne peut pas être associé à un autre mariage.</li>
+                    </ul>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex flex-col-reverse justify-end gap-3 border-t border-slate-200 pt-4 dark:border-gray-800 sm:flex-row">
+
+                    <button
+                        type="button"
+                        (click)="fermerAssociation()"
+                        class="rounded-xl border border-slate-300 bg-white px-4 py-3 font-medium text-slate-700 transition hover:bg-slate-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700">
+                        Annuler
+                    </button>
+
+                    <button
+                        type="submit"
+                        [disabled]="enregistrement"
+                        class="rounded-xl bg-rose-600 px-5 py-3 font-semibold text-white transition hover:bg-rose-700 disabled:cursor-not-allowed disabled:opacity-50">
+                        {{ enregistrement ? 'Association...' : 'Associer le couple' }}
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>

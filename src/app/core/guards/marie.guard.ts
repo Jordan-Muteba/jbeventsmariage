@@ -1,17 +1,18 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from '../services/auth-service';
 
 export const marieGuard: CanActivateFn = () => {
 
+  const authService = inject(AuthService);
   const router = inject(Router);
 
-  const role = localStorage.getItem('role');
-
-  if (role === 'MARIE') {
+  if (
+    authService.isConnecte() &&
+    authService.getRole() === 'MARIE'
+  ) {
     return true;
   }
 
-  router.navigate(['/login']);
-
-  return false;
+  return router.createUrlTree(['/login']);
 };

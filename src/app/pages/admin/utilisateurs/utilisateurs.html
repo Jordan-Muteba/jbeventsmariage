@@ -1,0 +1,339 @@
+<div
+    class="min-h-screen bg-slate-50 px-4 py-6 text-slate-800 transition-colors dark:bg-slate-950 dark:text-slate-100 md:px-8">
+
+    <!-- En-tête -->
+    <div class="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+        <div>
+            <div class="mb-2 flex items-center gap-2 text-sm text-violet-600 dark:text-violet-400">
+                <span>Administration</span>
+                <span>/</span>
+                <span>Utilisateurs</span>
+            </div>
+            <h1 class="text-2xl font-bold tracking-tight md:text-3xl">
+                Gestion des utilisateurs
+            </h1>
+            <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                Crée, modifie et contrôle les accès aux différents espaces de JB Events Mariage.
+            </p>
+        </div>
+
+        <button type="button" (click)="ouvrirCreation()"
+            class="inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-5 py-3 font-semibold text-white shadow-lg shadow-violet-600/20 transition hover:bg-violet-700">
+            <span class="text-xl">+</span>
+            Nouvel utilisateur
+        </button>
+    </div>
+
+    <!-- Message de retour -->
+    <div *ngIf="message" class="mb-6 flex items-start justify-between gap-3 rounded-xl border p-4" [ngClass]="typeMessage === 'succes'
+      ? 'border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-300'
+      : 'border-red-200 bg-red-50 text-red-800 dark:border-red-900 dark:bg-red-950/40 dark:text-red-300'">
+        <p class="text-sm">{{ message }}</p>
+        <button type="button" (click)="message = ''" aria-label="Fermer le message">✕</button>
+    </div>
+
+    <!-- Statistiques -->
+    <div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <div class="flex items-center justify-between">
+                <span class="text-sm text-slate-500 dark:text-slate-400">Total utilisateurs</span>
+                <span
+                    class="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-100 text-xl text-violet-700 dark:bg-violet-950 dark:text-violet-300">♙</span>
+            </div>
+            <p class="mt-4 text-3xl font-bold">{{ utilisateurs.length }}</p>
+            <p class="mt-1 text-xs text-slate-500">Comptes enregistrés</p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <div class="flex items-center justify-between">
+                <span class="text-sm text-slate-500 dark:text-slate-400">Comptes actifs</span>
+                <span
+                    class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-100 text-xl text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">✓</span>
+            </div>
+            <p class="mt-4 text-3xl font-bold">{{ nombreActifs }}</p>
+            <p class="mt-1 text-xs text-emerald-600">Accès activés</p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <div class="flex items-center justify-between">
+                <span class="text-sm text-slate-500 dark:text-slate-400">Comptes inactifs</span>
+                <span
+                    class="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-100 text-xl text-amber-700 dark:bg-amber-950 dark:text-amber-300">!</span>
+            </div>
+            <p class="mt-4 text-3xl font-bold">{{ nombreInactifs }}</p>
+            <p class="mt-1 text-xs text-amber-600">Accès désactivés</p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <div class="flex items-center justify-between">
+                <span class="text-sm text-slate-500 dark:text-slate-400">Administrateurs</span>
+                <span
+                    class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-100 text-xl text-blue-700 dark:bg-blue-950 dark:text-blue-300">♜</span>
+            </div>
+            <p class="mt-4 text-3xl font-bold">{{ nombreAdmins }}</p>
+            <p class="mt-1 text-xs text-slate-500">Rôle ADMIN</p>
+        </div>
+
+    </div>
+
+    <!-- Liste et filtres -->
+    <section
+        class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+
+        <div class="border-b border-slate-200 p-5 dark:border-slate-800 md:p-6">
+            <div class="mb-5 flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
+                <div>
+                    <h2 class="text-lg font-bold">Tous les utilisateurs</h2>
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                        {{ utilisateursFiltres.length }} résultat(s)
+                    </p>
+                </div>
+
+                <button type="button" (click)="chargerUtilisateurs()" [disabled]="chargement"
+                    class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium transition hover:bg-slate-100 disabled:opacity-50 dark:border-slate-700 dark:hover:bg-slate-800">
+                    ↻ Actualiser
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 gap-3 md:grid-cols-3">
+                <div class="relative md:col-span-1">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">⌕</span>
+                    <input type="search" [(ngModel)]="recherche" placeholder="Nom, prénom ou email..."
+                        class="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 dark:border-slate-700 dark:bg-slate-950">
+                </div>
+
+                <select [(ngModel)]="filtreRole"
+                    class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-950">
+                    <option value="">Tous les rôles</option>
+                    <option value="ADMIN">Administrateur</option>
+                    <option value="MARIE">Marié</option>
+                    <option value="CONTROLEUR">Contrôleur</option>
+                    <option value="RESTAURATION">Restauration</option>
+                </select>
+
+                <select [(ngModel)]="filtreStatut"
+                    class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-950">
+                    <option value="">Tous les statuts</option>
+                    <option value="actif">Actifs</option>
+                    <option value="inactif">Inactifs</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Chargement -->
+        <div *ngIf="chargement" class="p-12 text-center text-slate-500">
+            <div class="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-4 border-violet-200 border-t-violet-600">
+            </div>
+            Chargement des utilisateurs...
+        </div>
+
+        <!-- Tableau -->
+        <div *ngIf="!chargement" class="overflow-x-auto">
+            <table class="w-full min-w-[850px] text-left text-sm">
+                <thead
+                    class="bg-slate-50 text-xs uppercase tracking-wider text-slate-500 dark:bg-slate-950/60 dark:text-slate-400">
+                    <tr>
+                        <th class="px-6 py-4 font-semibold">Utilisateur</th>
+                        <th class="px-6 py-4 font-semibold">Rôle</th>
+                        <th class="px-6 py-4 font-semibold">Statut</th>
+                        <th class="px-6 py-4 font-semibold">Création</th>
+                        <th class="px-6 py-4 text-right font-semibold">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                    <tr *ngFor="let u of utilisateursFiltres"
+                        class="transition hover:bg-violet-50/40 dark:hover:bg-violet-950/10">
+
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-violet-100 font-bold text-violet-700 dark:bg-violet-950 dark:text-violet-300">
+                                    {{ initiales(u) }}
+                                </div>
+                                <div>
+                                    <p class="font-semibold">{{ u.prenom }} {{ u.nom }}</p>
+                                    <p class="mt-1 text-xs text-slate-500">{{ u.email }}</p>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="px-6 py-4">
+                            <span class="inline-flex rounded-lg px-3 py-1.5 text-xs font-semibold" [ngClass]="{
+                  'bg-violet-100 text-violet-700 dark:bg-violet-950 dark:text-violet-300': u.role === 'ADMIN',
+                  'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300': u.role === 'MARIE',
+                  'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300': u.role === 'CONTROLEUR',
+                  'bg-teal-100 text-teal-700 dark:bg-teal-950 dark:text-teal-300': u.role === 'RESTAURATION'
+                }">
+                                {{ u.role }}
+                            </span>
+                        </td>
+
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium"
+                                [ngClass]="u.actif
+                  ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300'
+                  : 'bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300'">
+                                <span class="h-2 w-2 rounded-full"
+                                    [ngClass]="u.actif ? 'bg-emerald-500' : 'bg-red-500'"></span>
+                                {{ u.actif ? 'Actif' : 'Inactif' }}
+                            </span>
+                        </td>
+
+                        <td class="px-6 py-4 text-slate-500">
+                            {{ u.dateCreation ? (u.dateCreation | date:'dd/MM/yyyy') : '—' }}
+                        </td>
+
+                        <td class="px-6 py-4">
+                            <div class="flex justify-end gap-2">
+                                <button type="button" (click)="ouvrirModification(u)" title="Modifier"
+                                    aria-label="Modifier"
+                                    class="rounded-lg border border-slate-200 px-3 py-2 font-medium text-slate-600 transition hover:border-violet-300 hover:bg-violet-50 hover:text-violet-700 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-violet-950">
+                                    ✎
+                                </button>
+
+                                <button type="button" (click)="changerStatut(u)"
+                                    [title]="u.actif ? 'Désactiver' : 'Activer'"
+                                    [attr.aria-label]="u.actif ? 'Désactiver le compte' : 'Activer le compte'"
+                                    class="rounded-lg border border-slate-200 px-3 py-2 font-medium transition hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800">
+                                    {{ u.actif ? '⏸' : '▶' }}
+                                </button>
+
+                                <button type="button" (click)="supprimerUtilisateur(u)" title="Supprimer"
+                                    aria-label="Supprimer"
+                                    class="rounded-lg border border-red-200 px-3 py-2 text-red-600 transition hover:bg-red-50 dark:border-red-900 dark:hover:bg-red-950">
+                                    🗑
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr *ngIf="utilisateursFiltres.length === 0">
+                        <td colspan="5" class="px-6 py-16 text-center">
+                            <div
+                                class="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-slate-100 text-2xl dark:bg-slate-800">
+                                ♙</div>
+                            <p class="font-semibold">Aucun utilisateur trouvé</p>
+                            <p class="mt-1 text-sm text-slate-500">Modifie les filtres ou crée un nouvel utilisateur.
+                            </p>
+                            <button type="button" (click)="ouvrirCreation()"
+                                class="mt-4 font-semibold text-violet-600 hover:underline dark:text-violet-400">
+                                + Ajouter un utilisateur
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Fenêtre de création / modification -->
+    <div *ngIf="modalOuverte"
+        class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-950/60 p-4 backdrop-blur-sm"
+        (click)="fermerModal()">
+
+        <section role="dialog" aria-modal="true" aria-labelledby="titreModal"
+            class="my-auto w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900"
+            (click)="$event.stopPropagation()">
+            <!-- Message de retour -->
+            <div *ngIf="message" class="mb-6 flex items-start justify-between gap-3 rounded-xl border p-4" [ngClass]="typeMessage === 'succes'
+      ? 'border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-300'
+      : 'border-red-200 bg-red-50 text-red-800 dark:border-red-900 dark:bg-red-950/40 dark:text-red-300'">
+                <p class="text-sm">{{ message }}</p>
+                <button type="button" (click)="message = ''" aria-label="Fermer le message">✕</button>
+            </div>
+
+            <div class="flex items-center justify-between border-b border-slate-200 p-5 dark:border-slate-800 md:p-6">
+                <div>
+                    <h2 id="titreModal" class="text-xl font-bold">
+                        {{ modeModification ? 'Modifier un utilisateur' : 'Nouvel utilisateur' }}
+                    </h2>
+                    <p class="mt-1 text-sm text-slate-500">
+                        Renseigne les informations du compte.
+                    </p>
+                </div>
+                <button type="button" (click)="fermerModal()" aria-label="Fermer"
+                    class="rounded-lg px-3 py-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
+                    ✕
+                </button>
+            </div>
+
+            <form (ngSubmit)="enregistrerUtilisateur()" class="p-5 md:p-6">
+                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+
+                    <div>
+                        <label for="prenom" class="mb-2 block text-sm font-medium">Prénom *</label>
+                        <input id="prenom" name="prenom" [(ngModel)]="formulaire.prenom" required maxlength="100"
+                            autocomplete="given-name" placeholder="Ex. : Jordan"
+                            class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 dark:border-slate-700 dark:bg-slate-950">
+                    </div>
+
+                    <div>
+                        <label for="nom" class="mb-2 block text-sm font-medium">Nom *</label>
+                        <input id="nom" name="nom" [(ngModel)]="formulaire.nom" required maxlength="100"
+                            autocomplete="family-name" placeholder="Ex. : Muteba"
+                            class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 dark:border-slate-700 dark:bg-slate-950">
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label for="email" class="mb-2 block text-sm font-medium">Adresse email *</label>
+                        <input id="email" name="email" type="email" [(ngModel)]="formulaire.email" required
+                            maxlength="180" autocomplete="email" placeholder="utilisateur@exemple.com"
+                            class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 dark:border-slate-700 dark:bg-slate-950">
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label for="password" class="mb-2 block text-sm font-medium">
+                            Mot de passe
+                            <span class="font-normal text-slate-500">
+                                {{ modeModification ? '(laisser vide pour conserver)' : '*' }}
+                            </span>
+                        </label>
+                        <input id="password" name="password" type="password" [(ngModel)]="formulaire.password"
+                            [required]="!modeModification"
+                            [autocomplete]="modeModification ? 'new-password' : 'new-password'" minlength="12"
+                            placeholder="12 caractères minimum"
+                            class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 dark:border-slate-700 dark:bg-slate-950">
+                    </div>
+
+                    <div>
+                        <label for="role" class="mb-2 block text-sm font-medium">Rôle *</label>
+                        <select id="role" name="role" [(ngModel)]="formulaire.role" required
+                            class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-950">
+                            <option value="ADMIN">Administrateur</option>
+                            <option value="MARIE">Marié</option>
+                            <option value="CONTROLEUR">Contrôleur</option>
+                            <option value="RESTAURATION">Restauration</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="actif" class="mb-2 block text-sm font-medium">Statut du compte</label>
+                        <select id="actif" name="actif" [(ngModel)]="formulaire.actif" required
+                            class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-950">
+                            <option [ngValue]="true">Actif</option>
+                            <option [ngValue]="false">Inactif</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div
+                    class="mt-7 flex flex-col-reverse gap-3 border-t border-slate-200 pt-5 dark:border-slate-800 sm:flex-row sm:justify-end">
+                    <button type="button" (click)="fermerModal()"
+                        class="rounded-xl border border-slate-200 px-5 py-3 font-medium transition hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800">
+                        Annuler
+                    </button>
+
+                    <button type="submit" [disabled]="enregistrement"
+                        class="rounded-xl bg-violet-600 px-6 py-3 font-semibold text-white transition hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-60">
+                        {{ enregistrement ? 'Enregistrement...' : (modeModification ? 'Enregistrer les modifications' :
+                        'Créer le compte') }}
+                    </button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+</div>

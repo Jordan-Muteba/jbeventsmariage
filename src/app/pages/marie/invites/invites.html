@@ -1,0 +1,316 @@
+<div class="page-invites">
+
+    <header class="entete">
+        <div>
+            <p class="surtitre">ESPACE MARIÉ</p>
+            <h1>Gestion des invités</h1>
+            <p class="description">
+                Gérez votre liste d'invités, leurs tables et leurs invitations personnalisées.
+            </p>
+            <p class="mariage-noms" *ngIf="mariage">
+                {{ mariage.nomMarie }} & {{ mariage.nomMariee }}
+            </p>
+        </div>
+
+        <button type="button" class="bouton bouton-principal" (click)="ouvrirCreation()">
+            <span aria-hidden="true">＋</span>
+            Ajouter un invité
+        </button>
+    </header>
+
+    <div class="message message-erreur" *ngIf="messageErreur">
+        <span>⚠</span>
+        <span>{{ messageErreur }}</span>
+        <button type="button" (click)="messageErreur = ''" aria-label="Fermer">
+            ×
+        </button>
+    </div>
+
+    <div class="message message-succes" *ngIf="messageSucces">
+        <span>✓</span>
+        <span>{{ messageSucces }}</span>
+        <button type="button" (click)="messageSucces = ''" aria-label="Fermer">
+            ×
+        </button>
+    </div>
+
+    <!-- Lien personnalisé du dernier invité créé -->
+    <section class="carte-lien" *ngIf="lienCree">
+        <div class="icone-lien">🔗</div>
+
+        <div class="contenu-lien">
+            <h2>Invitation prête à partager</h2>
+            <p>
+                Le lien personnalisé de
+                <strong>{{ nomInviteCree }}</strong>
+                a été généré.
+            </p>
+
+            <div class="lien-copie">
+                <input type="text" [value]="lienCree" readonly aria-label="Lien personnalisé de l'invité" />
+
+                <button type="button" class="bouton bouton-secondaire" (click)="copierLien(lienCree)">
+                    Copier le lien
+                </button>
+            </div>
+
+            <button type="button" class="bouton bouton-whatsapp" (click)="partagerWhatsApp(lienCree, nomInviteCree)">
+                Partager sur WhatsApp
+            </button>
+        </div>
+    </section>
+
+    <!-- Statistiques -->
+    <section class="statistiques">
+        <article class="statistique">
+            <div class="statistique-icone icone-violette">♙</div>
+            <div>
+                <p>Total des invitations</p>
+                <strong>{{ invites.length }}</strong>
+            </div>
+        </article>
+
+        <article class="statistique">
+            <div class="statistique-icone icone-verte">♧</div>
+            <div>
+                <p>Personnes invitées</p>
+                <strong>
+                    {{
+                    totalPersonnes
+                    }}
+                </strong>
+            </div>
+        </article>
+
+        <article class="statistique">
+            <div class="statistique-icone icone-doree">▦</div>
+            <div>
+                <p>Tables disponibles</p>
+                <strong>{{ tables.length }}</strong>
+            </div>
+        </article>
+    </section>
+
+    <!-- Recherche -->
+    <section class="carte-liste">
+        <div class="barre-outils">
+            <div>
+                <h2>Liste des invités</h2>
+                <p>Retrouvez rapidement une invitation.</p>
+            </div>
+
+            <form class="recherche" (ngSubmit)="rechercherInvites()">
+                <span aria-hidden="true">⌕</span>
+
+                <input type="search" name="recherche" [(ngModel)]="recherche" placeholder="Nom ou téléphone..." />
+
+                <button type="submit" class="bouton bouton-secondaire">
+                    Rechercher
+                </button>
+            </form>
+        </div>
+
+        <div class="chargement" *ngIf="chargement">
+            <span class="spinner"></span>
+            <p>Chargement des invités...</p>
+        </div>
+
+        <div class="table-responsive" *ngIf="!chargement">
+            <table *ngIf="invites.length > 0; else listeVide">
+                <thead>
+                    <tr>
+                        <th>Invité</th>
+                        <th>Téléphone</th>
+                        <th>Type</th>
+                        <th>Personnes</th>
+                        <th>Table</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let invite of invites">
+                        <td>
+                            <div class="identite">
+                                <div class="avatar">
+                                    {{ invite.nomComplet.charAt(0).toUpperCase() }}
+                                </div>
+                                <div>
+                                    <strong>{{ invite.nomComplet }}</strong>
+                                    <small>
+                                        {{ invite.remarque || 'Aucune remarque' }}
+                                    </small>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>{{ invite.telephone }}</td>
+
+                        <td>
+                            <span class="badge-type">
+                                {{ libelleType(invite.typeInvitation) }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <strong>
+                                {{ 1 + (invite.nombreAccompagnants || 0) }}
+                            </strong>
+                            <small class="sous-texte">
+                                personne(s)
+                            </small>
+                        </td>
+
+                        <td>
+                            <span class="badge-table" [class.sans-table]="!invite.tableMariage">
+                                {{ nomTable(invite) }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="actions">
+                                <button type="button" class="action action-modifier" title="Modifier l'invité"
+                                    (click)="ouvrirModification(invite)">
+                                    Modifier
+                                </button>
+
+                                <button type="button" class="action action-lien" title="Récupérer le lien personnalisé"
+                                    [disabled]="!invite.id" (click)="chargerLienInvite(invite)">
+                                    Lien
+                                </button>
+
+                                <button type="button" class="action action-supprimer" title="Supprimer l'invité"
+                                    (click)="supprimerInvite(invite)">
+                                    Supprimer
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <ng-template #listeVide>
+                <div class="liste-vide">
+                    <div class="liste-vide-icone">♧</div>
+                    <h3>Aucun invité trouvé</h3>
+                    <p>
+                        Ajoutez votre premier invité ou modifiez votre recherche.
+                    </p>
+                    <button type="button" class="bouton bouton-principal" (click)="ouvrirCreation()">
+                        Ajouter un invité
+                    </button>
+                </div>
+            </ng-template>
+        </div>
+    </section>
+
+</div>
+
+<!-- Formulaire dans une fenêtre modale -->
+<div class="fond-modal" *ngIf="afficherFormulaire" (click)="fermerFormulaire()">
+
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="titre-formulaire"
+        (click)="$event.stopPropagation()">
+
+        <header class="modal-entete">
+            <div>
+                <p class="surtitre">
+                    {{ modeModification ? 'MISE À JOUR' : 'NOUVELLE INVITATION' }}
+                </p>
+
+                <h2 id="titre-formulaire">
+                    {{ modeModification ? 'Modifier un invité' : 'Ajouter un invité' }}
+                </h2>
+            </div>
+
+            <button type="button" class="fermer-modal" aria-label="Fermer le formulaire" (click)="fermerFormulaire()">
+                ×
+            </button>
+        </header>
+
+        <form (ngSubmit)="enregistrer()">
+            <div class="champs-grille">
+
+                <div class="champ champ-large">
+                    <label for="nomComplet">Nom complet *</label>
+                    <input id="nomComplet" name="nomComplet" type="text" [(ngModel)]="formulaire.nomComplet"
+                        placeholder="Ex. : Richard Kambala" required />
+                </div>
+
+                <div class="champ champ-large">
+                    <label for="telephone">Téléphone *</label>
+                    <input id="telephone" name="telephone" type="tel" [(ngModel)]="formulaire.telephone"
+                        placeholder="Ex. : +243..." required />
+                </div>
+
+                <div class="champ">
+                    <label for="typeInvitation">Type d'invitation *</label>
+                    <select id="typeInvitation" name="typeInvitation" [(ngModel)]="formulaire.typeInvitation" required>
+
+                        <option value="INDIVIDUELLE">Individuelle</option>
+                        <option value="COUPLE">Couple</option>
+                        <option value="FAMILIALE">Familiale</option>
+                    </select>
+                </div>
+
+                <div class="champ">
+                    <label for="nombreAccompagnants">Accompagnants *</label>
+                    <input id="nombreAccompagnants" name="nombreAccompagnants" type="number" min="0" step="1"
+                        [(ngModel)]="formulaire.nombreAccompagnants" required />
+                    <small>
+                        Individuelle : 0 ; couple : 1 ; familiale : au moins 1.
+                    </small>
+                </div>
+
+                <div class="champ">
+                    <label for="heureArriveePrevue">Heure d'arrivée prévue</label>
+                    <input id="heureArriveePrevue" name="heureArriveePrevue" type="time"
+                        [(ngModel)]="formulaire.heureArriveePrevue" />
+                </div>
+
+                <div class="champ">
+                    <label for="tableIdSelectionnee">Affecter une table</label>
+                    <select id="tableIdSelectionnee" name="tableIdSelectionnee" [(ngModel)]="tableIdSelectionnee">
+
+                        <option value="">
+                            {{ modeModification ? 'Ne pas changer la table' : 'Sans table pour le moment' }}
+                        </option>
+
+                        <option *ngFor="let table of tables" [value]="table.id">
+                            {{ table.nom }} — capacité {{ table.capacite ?? 0 }}
+                        </option>
+                    </select>
+
+                    <small>
+                        La capacité sera contrôlée par le serveur lors de l'affectation.
+                    </small>
+                </div>
+
+                <div class="champ champ-large">
+                    <label for="remarque">Remarque</label>
+                    <textarea id="remarque" name="remarque" rows="3" [(ngModel)]="formulaire.remarque"
+                        placeholder="Informations complémentaires...">
+          </textarea>
+                </div>
+
+            </div>
+
+            <div class="message message-erreur" *ngIf="messageErreur">
+                {{ messageErreur }}
+            </div>
+
+            <footer class="modal-actions">
+                <button type="button" class="bouton bouton-annuler" [disabled]="enregistrement"
+                    (click)="fermerFormulaire()">
+                    Annuler
+                </button>
+
+                <button type="submit" class="bouton bouton-principal" [disabled]="enregistrement">
+                    {{ enregistrement ? 'Enregistrement...' : (modeModification ? 'Enregistrer les modifications' :
+                    'Créer l’invitation') }}
+                </button>
+            </footer>
+        </form>
+
+    </section>
+</div>

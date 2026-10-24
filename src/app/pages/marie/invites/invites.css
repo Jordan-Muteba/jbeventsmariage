@@ -1,0 +1,1088 @@
+/* =========================================================
+   GESTION DES INVITÉS — JB EVENTS MARIAGE
+   Compatible avec ThemeService et le thème Tailwind .dark
+   ========================================================= */
+
+/* ---------- 1. Couleurs du thème clair ---------- */
+
+:host {
+  display: block;
+
+  --page-bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-soft: #f8fafc;
+  --surface-hover: #f1f5f9;
+  --input-bg: #ffffff;
+
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+
+  --border-color: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  --accent: #7c3aed;
+  --accent-hover: #6d28d9;
+  --accent-soft: #f3e8ff;
+  --accent-text: #6d28d9;
+
+  --success-bg: #f0fdf4;
+  --success-text: #166534;
+  --success-border: #bbf7d0;
+
+  --error-bg: #fef2f2;
+  --error-text: #b91c1c;
+  --error-border: #fecaca;
+
+  --warning-bg: #fffbeb;
+  --warning-text: #92400e;
+
+  --shadow-card: 0 8px 30px rgb(15 23 42 / 5%);
+  --shadow-modal: 0 25px 80px rgb(15 23 42 / 22%);
+
+  color: var(--text-primary);
+}
+
+/* ---------- 2. Couleurs du thème sombre ---------- */
+
+:host-context(.dark) {
+  --page-bg: #0b1120;
+  --surface: #111827;
+  --surface-soft: #172033;
+  --surface-hover: #202b3d;
+  --input-bg: #0f172a;
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --border-color: #293548;
+  --border-strong: #3b4a60;
+
+  --accent: #a78bfa;
+  --accent-hover: #8b5cf6;
+  --accent-soft: #2e2150;
+  --accent-text: #c4b5fd;
+
+  --success-bg: #102a20;
+  --success-text: #86efac;
+  --success-border: #22543d;
+
+  --error-bg: #351b24;
+  --error-text: #fca5a5;
+  --error-border: #7f2939;
+
+  --warning-bg: #352a16;
+  --warning-text: #fcd34d;
+
+  --shadow-card: 0 8px 30px rgb(0 0 0 / 18%);
+  --shadow-modal: 0 25px 80px rgb(0 0 0 / 55%);
+}
+
+/* ---------- 3. Page générale ---------- */
+
+.page-invites {
+  min-height: 100vh;
+  padding: 28px;
+  background: var(--page-bg);
+  color: var(--text-primary);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.page-invites *,
+.fond-modal * {
+  box-sizing: border-box;
+}
+
+.page-invites button,
+.fond-modal button,
+.page-invites input,
+.fond-modal input,
+.page-invites select,
+.fond-modal select,
+.page-invites textarea,
+.fond-modal textarea {
+  font: inherit;
+}
+
+.page-invites button,
+.fond-modal button {
+  cursor: pointer;
+}
+
+.page-invites button:disabled,
+.fond-modal button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.page-invites button:focus-visible,
+.fond-modal button:focus-visible,
+.page-invites input:focus-visible,
+.fond-modal input:focus-visible,
+.page-invites select:focus-visible,
+.fond-modal select:focus-visible,
+.page-invites textarea:focus-visible,
+.fond-modal textarea:focus-visible {
+  outline: 3px solid rgb(139 92 246 / 35%);
+  outline-offset: 2px;
+}
+
+.page-invites h1,
+.page-invites h2,
+.page-invites h3,
+.fond-modal h2 {
+  margin-top: 0;
+  color: var(--text-primary);
+}
+
+.page-invites p {
+  color: var(--text-secondary);
+}
+
+/* ---------- 4. En-tête ---------- */
+
+.entete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.surtitre {
+  margin: 0 0 8px;
+  color: var(--accent-text) !important;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.entete h1 {
+  margin-bottom: 8px;
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.description {
+  max-width: 650px;
+  margin: 0;
+  font-size: 0.94rem;
+  line-height: 1.7;
+}
+
+.mariage-noms {
+  display: inline-flex;
+  margin: 14px 0 0 !important;
+  padding: 7px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--accent-text) !important;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* ---------- 5. Boutons ---------- */
+
+.bouton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-align: center;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.bouton:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.bouton-principal {
+  flex-shrink: 0;
+  background: var(--accent);
+  color: #ffffff;
+  box-shadow: 0 5px 14px rgb(124 58 237 / 18%);
+}
+
+.bouton-principal:hover:not(:disabled) {
+  background: var(--accent-hover);
+  box-shadow: 0 8px 20px rgb(124 58 237 / 25%);
+}
+
+.bouton-secondaire {
+  border-color: var(--border-color);
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+.bouton-secondaire:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--surface-hover);
+}
+
+.bouton-annuler {
+  border-color: var(--border-color);
+  background: var(--surface);
+  color: var(--text-secondary);
+}
+
+.bouton-annuler:hover:not(:disabled) {
+  background: var(--surface-hover);
+}
+
+.bouton-whatsapp {
+  margin-top: 12px;
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.bouton-whatsapp:hover:not(:disabled) {
+  background: #15803d;
+}
+
+/* ---------- 6. Messages de confirmation et d'erreur ---------- */
+
+.message {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border: 1px solid;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.message > span:first-child {
+  flex-shrink: 0;
+  font-weight: 800;
+}
+
+.message > span:nth-child(2) {
+  flex: 1;
+}
+
+.message > button {
+  margin-left: auto;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.message-erreur {
+  border-color: var(--error-border);
+  background: var(--error-bg);
+  color: var(--error-text);
+}
+
+.message-succes {
+  border-color: var(--success-border);
+  background: var(--success-bg);
+  color: var(--success-text);
+}
+
+/* ---------- 7. Carte du lien personnalisé ---------- */
+
+.carte-lien {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 26px;
+  padding: 22px;
+  border: 1px solid var(--success-border);
+  border-radius: 18px;
+  background: var(--success-bg);
+  box-shadow: var(--shadow-card);
+}
+
+.icone-lien {
+  display: grid;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 14px;
+  background: var(--surface);
+  font-size: 1.4rem;
+}
+
+.contenu-lien {
+  flex: 1;
+  min-width: 0;
+}
+
+.contenu-lien h2 {
+  margin-bottom: 6px;
+  font-size: 1.08rem;
+  font-weight: 800;
+}
+
+.contenu-lien p {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+}
+
+.contenu-lien p strong {
+  color: var(--text-primary);
+}
+
+.lien-copie {
+  display: flex;
+  gap: 10px;
+}
+
+.lien-copie input {
+  flex: 1;
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid var(--success-border);
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+/* ---------- 8. Statistiques ---------- */
+
+.statistiques {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 26px;
+}
+
+.statistique {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.statistique:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+}
+
+.statistique-icone {
+  display: grid;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border-radius: 15px;
+  font-size: 1.65rem;
+  font-weight: 700;
+}
+
+.icone-violette {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.icone-verte {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.icone-doree {
+  background: #fef3c7;
+  color: #a16207;
+}
+
+:host-context(.dark) .icone-violette {
+  background: #35245a;
+  color: #c4b5fd;
+}
+
+:host-context(.dark) .icone-verte {
+  background: #143b2b;
+  color: #86efac;
+}
+
+:host-context(.dark) .icone-doree {
+  background: #403117;
+  color: #fcd34d;
+}
+
+.statistique p {
+  margin: 0 0 5px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.statistique strong {
+  display: block;
+  color: var(--text-primary);
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+/* ---------- 9. Carte de la liste ---------- */
+
+.carte-liste {
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+
+.barre-outils {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.barre-outils h2 {
+  margin-bottom: 5px;
+  font-size: 1.12rem;
+  font-weight: 800;
+}
+
+.barre-outils p {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.recherche {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: min(100%, 450px);
+  padding: 5px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--input-bg);
+}
+
+.recherche > span {
+  padding-left: 8px;
+  color: var(--text-muted);
+  font-size: 1.5rem;
+}
+
+.recherche input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  padding: 8px 2px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.recherche input:focus-visible {
+  outline: none;
+}
+
+.recherche input::placeholder {
+  color: var(--text-muted);
+}
+
+/* ---------- 10. Chargement ---------- */
+
+.chargement {
+  display: flex;
+  min-height: 220px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.chargement p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.spinner {
+  width: 35px;
+  height: 35px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: rotation-invites 0.75s linear infinite;
+}
+
+@keyframes rotation-invites {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- 11. Tableau ---------- */
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-responsive table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table-responsive thead {
+  background: var(--surface-soft);
+}
+
+.table-responsive th {
+  padding: 14px 18px;
+  color: var(--text-secondary);
+  font-size: 0.73rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.table-responsive td {
+  padding: 16px 18px;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 0.86rem;
+  vertical-align: middle;
+}
+
+.table-responsive tbody tr {
+  transition: background-color 0.18s ease;
+}
+
+.table-responsive tbody tr:hover {
+  background: var(--surface-hover);
+}
+
+.identite {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 200px;
+}
+
+.avatar {
+  display: grid;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.identite > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.identite strong {
+  color: var(--text-primary);
+  font-size: 0.87rem;
+}
+
+.identite small,
+.sous-texte {
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  font-weight: 400;
+}
+
+.identite small {
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge-type,
+.badge-table {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.badge-type {
+  border-color: #ddd6fe;
+  background: #f5f3ff;
+  color: #6d28d9;
+}
+
+:host-context(.dark) .badge-type {
+  border-color: #4c3577;
+  background: #2b2043;
+  color: #c4b5fd;
+}
+
+.badge-table {
+  border-color: #bbf7d0;
+  background: #f0fdf4;
+  color: #166534;
+}
+
+:host-context(.dark) .badge-table {
+  border-color: #22543d;
+  background: #102a20;
+  color: #86efac;
+}
+
+.badge-table.sans-table {
+  border-color: var(--border-color);
+  background: var(--surface-soft);
+  color: var(--text-muted);
+}
+
+/* ---------- 12. Actions du tableau ---------- */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.action {
+  padding: 7px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--surface);
+  font-size: 0.76rem;
+  font-weight: 700;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.action-modifier {
+  border-color: #ddd6fe;
+  background: #f5f3ff;
+  color: #6d28d9;
+}
+
+.action-modifier:hover:not(:disabled) {
+  background: #ede9fe;
+}
+
+.action-lien {
+  color: var(--text-primary);
+}
+
+.action-lien:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--surface-hover);
+}
+
+.action-supprimer {
+  border-color: var(--error-border);
+  background: var(--error-bg);
+  color: var(--error-text);
+}
+
+.action-supprimer:hover:not(:disabled) {
+  border-color: var(--error-text);
+}
+
+/* ---------- 13. Liste vide ---------- */
+
+.liste-vide {
+  display: flex;
+  min-height: 300px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 35px 20px;
+  text-align: center;
+}
+
+.liste-vide-icone {
+  display: grid;
+  width: 68px;
+  height: 68px;
+  margin-bottom: 18px;
+  place-items: center;
+  border-radius: 22px;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-size: 2rem;
+}
+
+.liste-vide h3 {
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.liste-vide p {
+  max-width: 390px;
+  margin: 0 0 20px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+/* ---------- 14. Fenêtre modale ---------- */
+
+.fond-modal {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 24px;
+  background: rgb(15 23 42 / 58%);
+  backdrop-filter: blur(5px);
+}
+
+.modal {
+  width: 100%;
+  max-width: 720px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  background: var(--surface);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-modal);
+  animation: apparition-modal 0.2s ease-out;
+}
+
+@keyframes apparition-modal {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-entete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-entete .surtitre {
+  margin-bottom: 6px;
+}
+
+.modal-entete h2 {
+  margin-bottom: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.fermer-modal {
+  display: grid;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--surface-soft);
+  color: var(--text-secondary);
+  font-size: 1.5rem;
+}
+
+.fermer-modal:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+/* ---------- 15. Champs du formulaire ---------- */
+
+.modal form {
+  padding: 24px;
+}
+
+.champs-grille {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.champ {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.champ-large {
+  grid-column: 1 / -1;
+}
+
+.champ label {
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.champ input,
+.champ select,
+.champ textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  outline: none;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 0.88rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.champ input,
+.champ select {
+  min-height: 44px;
+}
+
+.champ textarea {
+  min-height: 100px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.champ input::placeholder,
+.champ textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.champ input:focus,
+.champ select:focus,
+.champ textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgb(139 92 246 / 12%);
+}
+
+.champ small {
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.champ option {
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+/* ---------- 16. Actions de la modale ---------- */
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* ---------- 17. Adaptation aux écrans moyens ---------- */
+
+@media (max-width: 1000px) {
+  .page-invites {
+    padding: 22px;
+  }
+
+  .statistiques {
+    gap: 12px;
+  }
+
+  .statistique {
+    gap: 12px;
+    padding: 17px;
+  }
+
+  .statistique-icone {
+    width: 44px;
+    height: 44px;
+    font-size: 1.4rem;
+  }
+
+  .barre-outils {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .recherche {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+/* ---------- 18. Adaptation aux téléphones ---------- */
+
+@media (max-width: 640px) {
+  .page-invites {
+    padding: 16px 12px;
+  }
+
+  .entete {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 22px;
+  }
+
+  .entete .bouton {
+    width: 100%;
+  }
+
+  .entete h1 {
+    font-size: 1.65rem;
+  }
+
+  .description {
+    font-size: 0.87rem;
+  }
+
+  .statistiques {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .statistique {
+    padding: 15px;
+  }
+
+  .statistique strong {
+    font-size: 1.45rem;
+  }
+
+  .carte-lien {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .icone-lien {
+    width: 40px;
+    height: 40px;
+  }
+
+  .lien-copie {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .lien-copie .bouton {
+    width: 100%;
+  }
+
+  .bouton-whatsapp {
+    width: 100%;
+  }
+
+  .barre-outils {
+    padding: 18px 14px;
+  }
+
+  .recherche {
+    flex-wrap: wrap;
+  }
+
+  .recherche input {
+    flex-basis: 60%;
+  }
+
+  .recherche .bouton {
+    flex: 1;
+  }
+
+  .table-responsive th,
+  .table-responsive td {
+    padding: 13px 12px;
+  }
+
+  .fond-modal {
+    align-items: flex-start;
+    padding: 12px;
+  }
+
+  .modal {
+    max-height: calc(100vh - 24px);
+    border-radius: 16px;
+  }
+
+  .modal-entete {
+    padding: 18px;
+  }
+
+  .modal-entete h2 {
+    font-size: 1.15rem;
+  }
+
+  .modal form {
+    padding: 18px;
+  }
+
+  .champs-grille {
+    grid-template-columns: 1fr;
+    gap: 17px;
+  }
+
+  .champ-large {
+    grid-column: auto;
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .modal-actions .bouton {
+    width: 100%;
+  }
+}
+
+/* ---------- 19. Préférence de réduction des animations ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .page-invites *,
+  .fond-modal * {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

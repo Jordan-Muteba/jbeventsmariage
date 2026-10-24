@@ -8,7 +8,7 @@ import { ThemeService } from '../../../core/services/theme-service';
 
 @Component({
   selector: 'app-login-component',
-  imports: [    
+  imports: [
     CommonModule,
     ReactiveFormsModule
   ],
@@ -25,23 +25,23 @@ export class LoginComponent {
 
   messageErreur = '';
 
-   private themeService = inject(ThemeService);
-  
-    changerTheme(): void {
-      this.themeService.changerTheme();
-    }
-  
-    estSombre(): boolean {
-      return this.themeService.estSombre();
-    }
-  
+  private themeService = inject(ThemeService);
 
-  
+  changerTheme(): void {
+    this.themeService.changerTheme();
+  }
+
+  estSombre(): boolean {
+    return this.themeService.estSombre();
+  }
+
+
+
 
   loginForm = this.fb.group({
 
-    email: [ '', [  Validators.required,  Validators.email] ],
-    password: ['',[  Validators.required] ]
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]]
 
   });
 
@@ -57,45 +57,45 @@ export class LoginComponent {
     const email = this.loginForm.value.email!;
     const password = this.loginForm.value.password!;
 
-    console.log('votre email est :', email, "et votre mot de passe est: ", password)
-    if ( email=== "jo1@gmail.com" && password ==="1111" ) {
-      this.router.navigate([ '/admin/dashboard'])
+    // console.log('votre email est :', email, "et votre mot de passe est: ", password)
+    // if ( email=== "jo1@gmail.com" && password ==="1111" ) {
+    //   this.router.navigate([ '/admin/dashboard'])
 
-    } if ( email=== "jordan@gmail.com" && password ==="1111" ) {
-      this.router.navigate([ '/marie/dashboard'])
+    // } if ( email=== "jordan@gmail.com" && password ==="1111" ) {
+    //   this.router.navigate([ '/marie/dashboard'])
 
-    } else {this.messageErreur =
-             'Email ou mot de passe incorrect.';
-        
+    // } else {this.messageErreur =
+    //          'Email ou mot de passe incorrect.';
 
-    // this.authService.login(email, password).subscribe({
-     
-      
-    //     next: (reponse) => {
-    //       this.authService.sauvegarderConnexion(reponse);
 
-    //       if (reponse.role === 'ADMIN') {
-    //         this.router.navigate([
-    //           '/admin/dashboard'
-    //         ]);
-    //       }
+    this.authService.login(email, password).subscribe({
+      next: (reponse) => {
+         console.log('Connexion réussie');
+    console.log('Rôle reçu :', reponse.role);
+    console.log('Jeton reçu :', !!reponse.token);
+        // Enregistrer le JWT et les informations renvoyées par Spring Boot.
+        this.authService.sauvegarderConnexion(reponse);
 
-    //       else if (reponse.role === 'MARIE') {
-    //         this.router.navigate([
-    //           '/marie/dashboard'
-    //         ]);
-    //       }
-    //     },
+        // Redirection en fonction du rôle fourni par le backend.
+        if (reponse.role === 'ADMIN') {
+          this.router.navigate(['/admin/dashboard']);
+        } else if (reponse.role === 'MARIE') {
+          this.router.navigate(['/marie/dashboard']);
+        } else {
+          this.authService.logout();
+          this.messageErreur =
+            'Ce rôle ne possède pas encore de page de connexion autorisée.';
+        }
+      },
 
-    //     error: (error) => {
-    //       console.error('Erreur connexion :', error);
+      error: (erreur) => {
+        console.error('Erreur de connexion :', erreur);
 
-    //       this.messageErreur =
-    //         error?.error?.message
-    //         || 'Email ou mot de passe incorrect.';
-    //     }
+        this.messageErreur =
+          erreur?.error?.message ||
+          'Email ou mot de passe incorrect, ou compte désactivé.';
+      }
+    });
 
-    //   });
   }
-}
 }

@@ -1,0 +1,171 @@
+
+<div class="min-h-screen bg-rose-50 px-4 py-10 text-gray-800">
+
+  <!-- Chargement -->
+  <div
+    *ngIf="chargement"
+    class="flex min-h-[60vh] flex-col items-center justify-center text-center"
+  >
+    <div
+      class="mb-5 h-12 w-12 animate-spin rounded-full border-4 border-rose-200 border-t-rose-600"
+    ></div>
+
+    <p class="text-lg font-medium">
+      Préparation de votre invitation...
+    </p>
+  </div>
+
+  <!-- Erreur -->
+  <div
+    *ngIf="!chargement && erreur"
+    class="mx-auto mt-16 max-w-lg rounded-2xl bg-white p-8 text-center shadow-lg"
+  >
+    <div class="mb-4 text-5xl">💌</div>
+
+    <h1 class="mb-3 text-2xl font-bold text-rose-800">
+      Invitation indisponible
+    </h1>
+
+    <p class="text-gray-600">{{ erreur }}</p>
+  </div>
+
+  <!-- Invitation -->
+  <main
+    *ngIf="!chargement && invitation as inv"
+    class="mx-auto max-w-3xl overflow-hidden rounded-3xl bg-white shadow-2xl"
+  >
+
+    <!-- Photo principale -->
+    <section
+      class="relative flex min-h-[320px] items-center justify-center bg-gradient-to-br from-rose-200 via-pink-100 to-amber-100 px-6 py-12 text-center"
+      [ngStyle]="inv.photoPrincipale ? {
+        'background-image': 'linear-gradient(#0004, #0004), url(' + inv.photoPrincipale + ')',
+        'background-size': 'cover',
+        'background-position': 'center'
+      } : {}"
+    >
+      <div class="relative z-10 text-white">
+
+        <p class="mb-4 text-sm uppercase tracking-[0.3em]">
+          Vous êtes cordialement invité(e)
+        </p>
+
+        <h1 class="font-serif text-4xl font-bold sm:text-6xl">
+          {{ inv.nomMarie }}
+        </h1>
+
+        <p class="my-3 text-2xl italic"> & </p>
+
+        <h2 class="font-serif text-4xl font-bold sm:text-6xl">
+          {{ inv.nomMariee }}
+        </h2>
+
+        <p class="mt-6 text-lg">
+          Célébrons ensemble notre union
+        </p>
+
+      </div>
+    </section>
+
+    <!-- Informations personnalisées -->
+    <section class="px-6 py-10 text-center sm:px-12">
+
+      <p class="mb-2 text-sm uppercase tracking-widest text-rose-600">
+        Invitation personnelle
+      </p>
+
+      <h2 class="mb-3 text-3xl font-semibold text-rose-900">
+        {{ inv.nomComplet }}
+      </h2>
+
+      <p class="mb-6 text-gray-600">
+        Nous serions honorés de vous compter parmi nous
+        pour célébrer ce jour exceptionnel.
+      </p>
+
+      <div class="mx-auto mb-8 h-1 w-20 rounded bg-rose-300"></div>
+
+      <div class="grid gap-5 text-left sm:grid-cols-2">
+
+        <div class="rounded-xl bg-rose-50 p-5">
+          <p class="mb-2 text-sm text-rose-600">📅 Date du mariage</p>
+
+          <p class="font-semibold">
+            {{ inv.dateMariage | date:'fullDate' }}
+          </p>
+        </div>
+
+        <div class="rounded-xl bg-rose-50 p-5">
+          <p class="mb-2 text-sm text-rose-600">🕒 Heure</p>
+
+          <p class="font-semibold">
+            {{ inv.heureMariage }}
+          </p>
+        </div>
+
+        <div class="rounded-xl bg-rose-50 p-5 sm:col-span-2">
+          <p class="mb-2 text-sm text-rose-600">📍 Lieu de réception</p>
+
+          <p class="font-semibold">{{ inv.lieu }}</p>
+
+          <p *ngIf="inv.adresse" class="mt-1 text-gray-600">
+            {{ inv.adresse }}
+          </p>
+        </div>
+
+      </div>
+
+      <div
+        *ngIf="inv.description"
+        class="mt-8 whitespace-pre-line leading-7 text-gray-600"
+      >
+        {{ inv.description }}
+      </div>
+
+      <!-- Détails de l'invitation -->
+      <div class="mt-8 rounded-2xl border border-rose-200 p-6">
+
+        <h3 class="mb-4 text-xl font-semibold text-rose-900">
+          Votre invitation
+        </h3>
+
+        <p class="mb-2">
+          Type :
+          <strong>
+            {{
+              inv.typeInvitation === 'INDIVIDUELLE'
+                ? 'Individuelle'
+                : inv.typeInvitation === 'COUPLE'
+                  ? 'Couple'
+                  : 'Familiale'
+            }}
+          </strong>
+        </p>
+
+        <p class="mb-2">
+          Nombre d'accompagnants autorisés :
+          <strong>{{ inv.nombreAccompagnants }}</strong>
+        </p>
+
+        <div
+          *ngIf="inv.nomTable"
+          class="mt-5 rounded-xl bg-green-50 p-4 text-green-800"
+        >
+          <p class="text-sm">Votre table</p>
+          <p class="text-xl font-bold">{{ inv.nomTable }}</p>
+        </div>
+
+        <p *ngIf="!inv.nomTable" class="mt-4 text-sm text-gray-500">
+          Votre table n'a pas encore été attribuée.
+        </p>
+
+      </div>
+
+      <p class="mt-8 text-sm italic text-gray-500">
+        Au plaisir de partager ce moment de bonheur avec vous.
+      </p>
+
+    </section>
+  </main>
+
+</div>

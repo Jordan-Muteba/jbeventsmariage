@@ -1,159 +1,502 @@
-  <div class="w-full min-w-0 max-w-full space-y-6">
+<div class="mx-auto w-full max-w-7xl space-y-6">
 
-  <!-- TITRE -->
-  <div>
-    <h1 class="text-2xl font-bold text-slate-900 dark:text-white">
-      Bonjour 👋
-    </h1>
+  <!-- EN-TÊTE -->
+  <section class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+    <div>
+      <p class="text-sm font-semibold text-violet-600 dark:text-violet-400">
+        ESPACE MARIÉ
+      </p>
 
-    <p class="mt-1 text-slate-500 dark:text-slate-400">
-      Bienvenue dans l'espace de gestion de votre mariage.
+      <h1 class="mt-1 text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl">
+        Mon mariage 💍
+      </h1>
+
+      <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+        Retrouvez les informations et suivez l'organisation de votre événement.
+      </p>
+    </div>
+
+    <button type="button" (click)="chargerMonMariage()" [disabled]="chargement" class="inline-flex items-center justify-center gap-2 rounded-xl
+             border border-slate-200 bg-white px-4 py-3 text-sm font-semibold
+             text-slate-700 shadow-sm transition hover:bg-slate-50
+             disabled:cursor-not-allowed disabled:opacity-50
+             dark:border-white/10 dark:bg-slate-900 dark:text-white
+             dark:hover:bg-white/5">
+      ↻ Actualiser
+    </button>
+  </section>
+
+  <!-- CHARGEMENT -->
+  @if (chargement) {
+  <div class="rounded-2xl border border-slate-200 bg-white p-10 text-center
+                dark:border-white/10 dark:bg-slate-900">
+    <div class="mx-auto h-9 w-9 animate-spin rounded-full border-4
+                  border-violet-200 border-t-violet-600"></div>
+    <p class="mt-4 text-sm text-slate-500 dark:text-slate-400">
+      Chargement des informations de votre mariage...
     </p>
   </div>
+  }
 
+  <!-- ERREUR -->
+  @if (messageErreur) {
+  <div role="alert" class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm
+                text-red-700 dark:border-red-500/20 dark:bg-red-500/10
+                dark:text-red-300">
+    <p class="font-semibold">Association au mariage</p>
+    {{ messageErreur }}
+  </div>
+  }
+
+  <!-- SUCCÈS -->
+  @if (messageSucces) {
+  <div role="status" class="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm
+                text-emerald-700 dark:border-emerald-500/20
+                dark:bg-emerald-500/10 dark:text-emerald-300">
+    {{ messageSucces }}
+  </div>
+  }
+
+  @if (!chargement && mariage) {
+
+  <!-- RÉSUMÉ DU MARIAGE -->
+  <section class="overflow-hidden rounded-3xl border border-slate-200
+                    bg-white shadow-sm dark:border-white/10 dark:bg-slate-900">
+
+    <div class="relative overflow-hidden bg-gradient-to-br from-violet-700
+                  via-purple-700 to-fuchsia-700 p-6 text-white sm:p-8">
+
+      <div class="absolute -right-12 -top-16 h-52 w-52 rounded-full
+                    bg-white/10 blur-2xl"></div>
+
+      <div class="relative flex flex-col justify-between gap-5 sm:flex-row
+                    sm:items-center">
+
+        <div class="min-w-0">
+          <span class="inline-flex rounded-full border border-white/25
+                         bg-white/10 px-3 py-1 text-xs font-medium">
+            Votre événement
+          </span>
+
+          <h2 class="mt-4 text-2xl font-bold sm:text-3xl">
+            {{ mariage.nomMarie || 'Marié' }}
+            <span class="mx-1 text-pink-200">&</span>
+            {{ mariage.nomMariee || 'Mariée' }}
+          </h2>
+
+          <p class="mt-3 max-w-2xl text-sm leading-6 text-white/80">
+            {{ mariage.description || 'Votre histoire, votre journée, votre célébration.' }}
+          </p>
+        </div>
+
+        <button type="button" (click)="ouvrirModification()" class="shrink-0 rounded-xl bg-white px-5 py-3 text-sm font-bold
+                   text-violet-700 shadow-lg transition hover:bg-violet-50">
+          ✏️ Modifier
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-5 p-5 sm:grid-cols-2 sm:p-7 lg:grid-cols-3">
+
+      <div class="flex items-start gap-3">
+        <div class="flex h-11 w-11 shrink-0 items-center justify-center
+                      rounded-xl bg-violet-100 text-xl dark:bg-violet-500/15">
+          📅
+        </div>
+        <div class="min-w-0">
+          <p class="text-xs text-slate-500 dark:text-slate-400">Date du mariage</p>
+          <p class="mt-1 font-semibold text-slate-900 dark:text-white">
+            {{ mariage.dateMariage ? (mariage.dateMariage | date:'longDate') : 'Non renseignée' }}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="flex h-11 w-11 shrink-0 items-center justify-center
+                      rounded-xl bg-blue-100 text-xl dark:bg-blue-500/15">
+          🕒
+        </div>
+        <div class="min-w-0">
+          <p class="text-xs text-slate-500 dark:text-slate-400">Heure</p>
+          <p class="mt-1 font-semibold text-slate-900 dark:text-white">
+            {{ mariage.heureMariage || 'Non renseignée' }}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="flex h-11 w-11 shrink-0 items-center justify-center
+                      rounded-xl bg-rose-100 text-xl dark:bg-rose-500/15">
+          📍
+        </div>
+        <div class="min-w-0">
+          <p class="text-xs text-slate-500 dark:text-slate-400">Lieu</p>
+          <p class="mt-1 font-semibold text-slate-900 dark:text-white">
+            {{ mariage.lieu || 'Non renseigné' }}
+          </p>
+          <p class="mt-1 break-words text-sm text-slate-500 dark:text-slate-400">
+            {{ mariage.adresse || 'Adresse non renseignée' }}
+          </p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <div class="flex h-11 w-11 shrink-0 items-center justify-center
+                      rounded-xl bg-amber-100 text-xl dark:bg-amber-500/15">
+          👤
+        </div>
+        <div class="min-w-0">
+          <p class="text-xs text-slate-500 dark:text-slate-400">Compte du marié</p>
+          <p class="mt-1 break-words font-semibold text-slate-900 dark:text-white">
+            @if (mariage.utilisateurMarie) {
+            {{ mariage.utilisateurMarie.prenom }} {{ mariage.utilisateurMarie.nom }}
+            } @else {
+            Non associé
+            }
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="flex h-11 w-11 shrink-0 items-center justify-center
+                      rounded-xl bg-pink-100 text-xl dark:bg-pink-500/15">
+          👤
+        </div>
+        <div class="min-w-0">
+          <p class="text-xs text-slate-500 dark:text-slate-400">Compte de la mariée</p>
+          <p class="mt-1 break-words font-semibold text-slate-900 dark:text-white">
+            @if (mariage.utilisateurMariee) {
+            {{ mariage.utilisateurMariee.prenom }} {{ mariage.utilisateurMariee.nom }}
+            } @else {
+            Non associé
+            }
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="flex h-11 w-11 shrink-0 items-center justify-center
+                      rounded-xl bg-emerald-100 text-xl dark:bg-emerald-500/15">
+          🎟️
+        </div>
+        <div class="min-w-0">
+          <p class="text-xs text-slate-500 dark:text-slate-400">Code d'invitation</p>
+          <p class="mt-1 break-all font-semibold text-slate-900 dark:text-white">
+            {{ mariage.codeInvitation || 'Non disponible' }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    @if (mariage.photoPrincipale) {
+    <div class="px-5 pb-6 sm:px-7">
+      <img [src]="mariage.photoPrincipale" alt="Photo principale du mariage"
+        class="max-h-96 w-full rounded-2xl object-cover" />
+    </div>
+    }
+
+    @if (mariage.video) {
+    <div class="px-5 pb-6 sm:px-7">
+      <a [href]="mariage.video" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-xl bg-violet-50
+                   px-4 py-3 text-sm font-semibold text-violet-700
+                   hover:bg-violet-100 dark:bg-violet-500/10
+                   dark:text-violet-300 dark:hover:bg-violet-500/20">
+        ▶️ Voir la vidéo du mariage
+      </a>
+    </div>
+    }
+  </section>
 
   <!-- STATISTIQUES -->
-    <div class="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 2xl:grid-cols-4">
-
-    <!-- Invités -->
-    <div
-      class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm
-             dark:border-white/10 dark:bg-slate-900"
-    >
-      <div class="flex items-center justify-between">
-
-        <div>
-          <p class="text-sm text-slate-500 dark:text-slate-400">
-            Invités
-          </p>
-
-          <p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">
-            0
-          </p>
-        </div>
-
-        <div
-          class="flex h-12 w-12 items-center justify-center rounded-xl
-                 bg-violet-100 text-xl dark:bg-violet-500/15"
-        >
-          👥
-        </div>
-
-      </div>
+  <section>
+    <div class="mb-4">
+      <h2 class="text-lg font-bold text-slate-900 dark:text-white">
+        Vue d'ensemble
+      </h2>
+      <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+        Suivez les préparatifs et les réponses de vos invités.
+      </p>
     </div>
 
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
-    <!-- Confirmations -->
-    <div
-      class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm
-             dark:border-white/10 dark:bg-slate-900"
-    >
-      <div class="flex items-center justify-between">
-
-        <div>
-          <p class="text-sm text-slate-500 dark:text-slate-400">
-            Confirmations
-          </p>
-
-          <p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">
-            0
-          </p>
+      <div class="rounded-2xl border border-slate-200 bg-white p-5
+                    shadow-sm dark:border-white/10 dark:bg-slate-900">
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Total invités</p>
+            <p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">
+              {{ statistiques.totalInvites ?? '—' }}
+            </p>
+          </div>
+          <span class="rounded-xl bg-violet-100 p-3 text-xl dark:bg-violet-500/15">👥</span>
         </div>
-
-        <div
-          class="flex h-12 w-12 items-center justify-center rounded-xl
-                 bg-emerald-100 text-xl dark:bg-emerald-500/15"
-        >
-          ✅
-        </div>
-
       </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5
+                    shadow-sm dark:border-white/10 dark:bg-slate-900">
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Invitations annulées</p>
+            <p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">
+              {{ statistiques.invitationsAnnulees ?? '—' }}
+            </p>
+          </div>
+          <span class="rounded-xl bg-rose-100 p-3 text-xl dark:bg-rose-500/15">❌</span>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5
+                    shadow-sm dark:border-white/10 dark:bg-slate-900">
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Présences confirmées</p>
+            <p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">
+              {{ statistiques.presencesConfirmees ?? '—' }}
+            </p>
+          </div>
+          <span class="rounded-xl bg-emerald-100 p-3 text-xl dark:bg-emerald-500/15">✅</span>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white p-5
+                    shadow-sm dark:border-white/10 dark:bg-slate-900">
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Tables créées</p>
+            <p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">
+              {{ statistiques.totalTables ?? '—' }}
+            </p>
+          </div>
+          <span class="rounded-xl bg-amber-100 p-3 text-xl dark:bg-amber-500/15">🪑</span>
+        </div>
+      </div>
+
     </div>
 
+    <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">
+      Les tirets indiquent que les statistiques n'ont pas encore été raccordées
+      à leurs données réelles.
+    </p>
+  </section>
 
-    <!-- Présents -->
-    <div
-      class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm
-             dark:border-white/10 dark:bg-slate-900"
-    >
-      <div class="flex items-center justify-between">
-
-        <div>
-          <p class="text-sm text-slate-500 dark:text-slate-400">
-            Présents
-          </p>
-
-          <p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">
-            0
-          </p>
-        </div>
-
-        <div
-          class="flex h-12 w-12 items-center justify-center rounded-xl
-                 bg-blue-100 text-xl dark:bg-blue-500/15"
-        >
-          🎫
-        </div>
-
-      </div>
+  <!-- ACCÈS RAPIDES -->
+  <section>
+    <div class="mb-4">
+      <h2 class="text-lg font-bold text-slate-900 dark:text-white">
+        Gérer mon mariage
+      </h2>
+      <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+        Accédez rapidement aux différentes étapes de l'organisation.
+      </p>
     </div>
 
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
 
-    <!-- Tables -->
-    <div
-      class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm
-             dark:border-white/10 dark:bg-slate-900"
-    >
-      <div class="flex items-center justify-between">
+      <a routerLink="/marie/invites" class="group flex items-center gap-4 rounded-2xl border border-slate-200
+                  bg-white p-5 shadow-sm transition hover:-translate-y-1
+                  hover:border-violet-300 hover:shadow-md
+                  dark:border-white/10 dark:bg-slate-900 dark:hover:border-violet-500/40">
+        <span class="flex h-12 w-12 shrink-0 items-center justify-center
+                       rounded-xl bg-violet-100 text-2xl dark:bg-violet-500/15">👥</span>
+        <span class="min-w-0 flex-1">
+          <span class="block font-semibold text-slate-900 dark:text-white">Mes invités</span>
+          <span class="mt-1 block text-sm text-slate-500 dark:text-slate-400">Ajouter et gérer les invités</span>
+        </span>
+        <span class="text-xl text-slate-400 transition group-hover:translate-x-1">→</span>
+      </a>
 
-        <div>
-          <p class="text-sm text-slate-500 dark:text-slate-400">
-            Tables
-          </p>
+      <a routerLink="/marie/tables" class="group flex items-center gap-4 rounded-2xl border border-slate-200
+                  bg-white p-5 shadow-sm transition hover:-translate-y-1
+                  hover:border-amber-300 hover:shadow-md
+                  dark:border-white/10 dark:bg-slate-900 dark:hover:border-amber-500/40">
+        <span class="flex h-12 w-12 shrink-0 items-center justify-center
+                       rounded-xl bg-amber-100 text-2xl dark:bg-amber-500/15">🪑</span>
+        <span class="min-w-0 flex-1">
+          <span class="block font-semibold text-slate-900 dark:text-white">Mes tables</span>
+          <span class="mt-1 block text-sm text-slate-500 dark:text-slate-400">Créer et organiser les tables</span>
+        </span>
+        <span class="text-xl text-slate-400 transition group-hover:translate-x-1">→</span>
+      </a>
 
-          <p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">
-            0
-          </p>
-        </div>
+      <a routerLink="/marie/boissons" class="group flex items-center gap-4 rounded-2xl border border-slate-200
+                  bg-white p-5 shadow-sm transition hover:-translate-y-1
+                  hover:border-emerald-300 hover:shadow-md
+                  dark:border-white/10 dark:bg-slate-900 dark:hover:border-emerald-500/40">
+        <span class="flex h-12 w-12 shrink-0 items-center justify-center
+                       rounded-xl bg-emerald-100 text-2xl dark:bg-emerald-500/15">🥂</span>
+        <span class="min-w-0 flex-1">
+          <span class="block font-semibold text-slate-900 dark:text-white">Boissons</span>
+          <span class="mt-1 block text-sm text-slate-500 dark:text-slate-400">Gérer les boissons proposées</span>
+        </span>
+        <span class="text-xl text-slate-400 transition group-hover:translate-x-1">→</span>
+      </a>
 
-        <div
-          class="flex h-12 w-12 items-center justify-center rounded-xl
-                 bg-amber-100 text-xl dark:bg-amber-500/15"
-        >
-          🪑
-        </div>
+      <a routerLink="/marie/controle" class="group flex items-center gap-4 rounded-2xl border border-slate-200
+                  bg-white p-5 shadow-sm transition hover:-translate-y-1
+                  hover:border-blue-300 hover:shadow-md
+                  dark:border-white/10 dark:bg-slate-900 dark:hover:border-blue-500/40">
+        <span class="flex h-12 w-12 shrink-0 items-center justify-center
+                       rounded-xl bg-blue-100 text-2xl dark:bg-blue-500/15">🎫</span>
+        <span class="min-w-0 flex-1">
+          <span class="block font-semibold text-slate-900 dark:text-white">Contrôle d'entrée</span>
+          <span class="mt-1 block text-sm text-slate-500 dark:text-slate-400">Vérifier les invitations</span>
+        </span>
+        <span class="text-xl text-slate-400 transition group-hover:translate-x-1">→</span>
+      </a>
 
-      </div>
+      <a routerLink="/marie/statistiques" class="group flex items-center gap-4 rounded-2xl border border-slate-200
+                  bg-white p-5 shadow-sm transition hover:-translate-y-1
+                  hover:border-pink-300 hover:shadow-md
+                  dark:border-white/10 dark:bg-slate-900 dark:hover:border-pink-500/40">
+        <span class="flex h-12 w-12 shrink-0 items-center justify-center
+                       rounded-xl bg-pink-100 text-2xl dark:bg-pink-500/15">📊</span>
+        <span class="min-w-0 flex-1">
+          <span class="block font-semibold text-slate-900 dark:text-white">Statistiques détaillées</span>
+          <span class="mt-1 block text-sm text-slate-500 dark:text-slate-400">Suivre les confirmations</span>
+        </span>
+        <span class="text-xl text-slate-400 transition group-hover:translate-x-1">→</span>
+      </a>
+
+      <button type="button" (click)="ouvrirModification()" class="flex items-center gap-4 rounded-2xl border border-slate-200
+                       bg-white p-5 text-left shadow-sm transition hover:-translate-y-1
+                       hover:border-fuchsia-300 hover:shadow-md
+                       dark:border-white/10 dark:bg-slate-900 dark:hover:border-fuchsia-500/40">
+        <span class="flex h-12 w-12 shrink-0 items-center justify-center
+                       rounded-xl bg-fuchsia-100 text-2xl dark:bg-fuchsia-500/15">✏️</span>
+        <span>
+          <span class="block font-semibold text-slate-900 dark:text-white">Modifier mon mariage</span>
+          <span class="mt-1 block text-sm text-slate-500 dark:text-slate-400">Mettre à jour les informations</span>
+        </span>
+      </button>
+
     </div>
+  </section>
+  }
 
+  <!-- FENÊTRE DE MODIFICATION -->
+  @if (modeModification && mariage) {
+  <div class="fixed inset-0 z-[100] flex items-center justify-center
+                overflow-y-auto bg-slate-950/60 p-3 backdrop-blur-sm sm:p-6" (click)="annulerModification()">
+
+    <section class="my-auto max-h-[95dvh] w-full max-w-2xl overflow-y-auto
+                      rounded-2xl border border-slate-200 bg-white shadow-2xl
+                      dark:border-white/10 dark:bg-slate-900" (click)="$event.stopPropagation()">
+
+      <div class="sticky top-0 z-10 flex items-center justify-between gap-4
+                    border-b border-slate-200 bg-white p-5
+                    dark:border-white/10 dark:bg-slate-900">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white">
+            Modifier mon mariage
+          </h2>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            Modifiez les informations de votre événement.
+          </p>
+        </div>
+
+        <button type="button" (click)="annulerModification()" aria-label="Fermer" class="flex h-9 w-9 items-center justify-center rounded-xl
+                         text-xl text-slate-500 hover:bg-slate-100
+                         dark:hover:bg-white/10">
+          ✕
+        </button>
+      </div>
+
+      <form (ngSubmit)="enregistrerModifications()" class="space-y-5 p-5">
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+            Nom du marié
+            <input name="nomMarie" [(ngModel)]="formulaire.nomMarie" required class="mt-2 w-full rounded-xl border border-slate-200
+                            bg-white px-3 py-3 text-slate-900 outline-none
+                            focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20
+                            dark:border-white/10 dark:bg-slate-800 dark:text-white" />
+          </label>
+
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+            Nom de la mariée
+            <input name="nomMariee" [(ngModel)]="formulaire.nomMariee" required class="mt-2 w-full rounded-xl border border-slate-200
+                            bg-white px-3 py-3 text-slate-900 outline-none
+                            focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20
+                            dark:border-white/10 dark:bg-slate-800 dark:text-white" />
+          </label>
+        </div>
+
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+          Description
+          <textarea name="description" [(ngModel)]="formulaire.description" rows="3" class="mt-2 w-full rounded-xl border border-slate-200
+                             bg-white px-3 py-3 text-slate-900 outline-none
+                             focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20
+                             dark:border-white/10 dark:bg-slate-800 dark:text-white"></textarea>
+        </label>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+            Date du mariage
+            <input type="date" name="dateMariage" [(ngModel)]="formulaire.dateMariage" class="mt-2 w-full rounded-xl border border-slate-200
+                            bg-white px-3 py-3 text-slate-900 outline-none
+                            focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20
+                            dark:border-white/10 dark:bg-slate-800 dark:text-white" />
+          </label>
+
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+            Heure
+            <input type="time" name="heureMariage" [(ngModel)]="formulaire.heureMariage" class="mt-2 w-full rounded-xl border border-slate-200
+                            bg-white px-3 py-3 text-slate-900 outline-none
+                            focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20
+                            dark:border-white/10 dark:bg-slate-800 dark:text-white" />
+          </label>
+        </div>
+
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+          Lieu
+          <input name="lieu" [(ngModel)]="formulaire.lieu" class="mt-2 w-full rounded-xl border border-slate-200
+                          bg-white px-3 py-3 text-slate-900 outline-none
+                          focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20
+                          dark:border-white/10 dark:bg-slate-800 dark:text-white" />
+        </label>
+
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+          Adresse
+          <input name="adresse" [(ngModel)]="formulaire.adresse" class="mt-2 w-full rounded-xl border border-slate-200
+                          bg-white px-3 py-3 text-slate-900 outline-none
+                          focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20
+                          dark:border-white/10 dark:bg-slate-800 dark:text-white" />
+        </label>
+
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+          URL de la photo principale
+          <input type="url" name="photoPrincipale" [(ngModel)]="formulaire.photoPrincipale" class="mt-2 w-full rounded-xl border border-slate-200
+                          bg-white px-3 py-3 text-slate-900 outline-none
+                          focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20
+                          dark:border-white/10 dark:bg-slate-800 dark:text-white" />
+        </label>
+
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+          URL de la vidéo
+          <input type="url" name="video" [(ngModel)]="formulaire.video" class="mt-2 w-full rounded-xl border border-slate-200
+                          bg-white px-3 py-3 text-slate-900 outline-none
+                          focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20
+                          dark:border-white/10 dark:bg-slate-800 dark:text-white" />
+        </label>
+
+        <div class="flex flex-col-reverse gap-3 border-t border-slate-200 pt-5
+                      sm:flex-row sm:justify-end dark:border-white/10">
+          <button type="button" (click)="annulerModification()" class="rounded-xl border border-slate-200 px-5 py-3
+                           text-sm font-semibold text-slate-700 hover:bg-slate-50
+                           dark:border-white/10 dark:text-slate-300 dark:hover:bg-white/5">
+            Annuler
+          </button>
+
+          <button type="submit" [disabled]="enregistrement" class="rounded-xl bg-violet-600 px-5 py-3 text-sm
+                           font-semibold text-white shadow-lg shadow-violet-600/20
+                           transition hover:bg-violet-700 disabled:cursor-not-allowed
+                           disabled:opacity-50">
+            {{ enregistrement ? 'Enregistrement...' : 'Enregistrer les modifications' }}
+          </button>
+        </div>
+
+      </form>
+    </section>
   </div>
-
-
-  <!-- MESSAGE -->
-  <div
-    class="rounded-2xl border border-violet-200 bg-violet-50 p-6
-           dark:border-violet-500/20 dark:bg-violet-500/10"
-  >
-
-    <div class="flex items-start gap-4">
-
-      <div class="text-3xl">
-        💍
-      </div>
-
-      <div>
-        <h2 class="font-semibold text-violet-900 dark:text-violet-200">
-          Préparez votre mariage
-        </h2>
-
-        <p class="mt-1 text-sm text-violet-700 dark:text-violet-300">
-          Commencez par renseigner les informations de votre mariage,
-          puis ajoutez vos invités, vos boissons et vos tables.
-        </p>
-      </div>
-
-    </div>
-
-  </div>
-
+  }
 </div>

@@ -7,81 +7,102 @@ import { Dashboard } from './pages/admin/dashboard/dashboard';
 import { MarieLayoutComponent } from './layout/marie-layout/marie-layout-component/marie-layout-component';
 import { DashboardComponent } from './pages/marie/dashboard-component/dashboard-component';
 import { Accueil } from './pages/invite/accueil/accueil';
+import { UtilisateursComponent } from './pages/admin/utilisateurs/utilisateurs';
+import { MariagesComponent } from './pages/admin/mariages/mariages';
+
+import { InvitationPubliqueComponent } from './pages/invite/invitation-publique/invitation-publique';
+import { Invites } from './pages/marie/invites/invites';
 
 export const routes: Routes = [
 
-    // ==============================
-    // AUTHENTIFICATION
-    // ==============================
+  // ==============================
+  // AUTHENTIFICATION
+  // ==============================
 
-    {
-        path: 'login', component: LoginComponent
+  {
+    path: 'login', component: LoginComponent
 
-        // loadComponent: () => LoginComponent
-
-        //   import('./pages/auth/login/login.component')
-        // .then(m => m.LoginComponent)
-    },
+  },
 
 
-    // ==============================
-    // ESPACE ADMIN
-    // ==============================
+  // ==============================
+  // ESPACE ADMIN
+  // ==============================
 
-    {
-        path: 'admin', component: AdminLayoutComponent,
-        //   canActivate: [adminGuard],
+  {
+    path: 'admin', component: AdminLayoutComponent,
+    canActivate: [adminGuard],
 
-        children:[
+    children: [
 
-            {
-                path:'dashboard', component: Dashboard
-            }
-        ]
-    },
+      {
+        path: 'dashboard', component: Dashboard
+      },
+      {
+        path: 'utilisateurs', component: UtilisateursComponent
+      },
+      {
+        path: 'mariages', component: MariagesComponent
+      }
+    ]
+  },
 
 
   // =========================
   // ESPACE MARIE
   // =========================
   {
-    path: 'marie', component:MarieLayoutComponent,
-
-    // loadComponent: () =>
-    //   import('./layout/marie-layout/marie-layout.component')
-    //     .then(m => m.MarieLayoutComponent),
+    path: 'marie', component: MarieLayoutComponent,
+    canActivate: [marieGuard],
 
     children: [
 
       {
-        path: 'dashboard', component: DashboardComponent
+        path: 'dashboard',
+        component: DashboardComponent
+      },
+      {
+        path: 'mariage',
+        component: DashboardComponent
+      },
+      {
+        path:'invites', component: Invites
 
-    //     loadComponent: () =>
-    //       import('./pages/marie/dashboard/dashboard.component')
-    //         .then(m => m.MarieDashboardComponent)
+      },
+      {
+        path: '',
+        redirectTo: 'mariage',
+        pathMatch: 'full'
       }
 
     ]
   },
 
   {
-     path: 'invitation/:codeInvitation', component: Accueil,
+    path: 'invitation/:code', component: Accueil,
   },
 
+  // ==============================
+  // INVITATION PUBLIQUE
+  // ==============================
+  // {
+  //   path: 'invitation/:code', component: InvitationPubliqueComponent
+  // },
 
-    // ==============================
-    // ROUTE PAR DÉFAUT
-    // ==============================
 
-{
-  path: '',
-  redirectTo: 'login',
-  pathMatch: 'full'
-},
-{
-  path: '**',
-  redirectTo: 'login'
-}
+  // ==============================
+  // ROUTE PAR DÉFAUT
+  // ==============================
+
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: 'login'
+  }
 
 
 ];
